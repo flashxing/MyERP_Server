@@ -65,6 +65,7 @@ public class Server {
 			logger.info("binding portInservice");
 			PortControllerInterface portInService = new PortController();
 			Naming.bind(Configure.PortInController,portInService);
+			portInService.getAllPortIn();
 			logger.info("bing portInservice success");
 			
 			logger.info("binding customerservice");
