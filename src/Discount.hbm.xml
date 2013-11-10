@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+          "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.njue.mis.model.Discount" table="tb_discount">
+        <id name="customerId" type="string">
+            <column name="customer_id" />
+        </id>
+        <property name="discount" type="double">
+            <column name="discount"  />
+        </property>
+        <map name="goodsDiscount" table="tb_goods_discount" lazy="false" cascade="all">
+            <key column="customer_id" foreign-key="customerId" />
+            <index type="string" column="goodsid" />
+            <element type="double" column="discount" not-null="true"/>
+        </map>
+
+    </class>
+</hibernate-mapping>

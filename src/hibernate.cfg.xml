@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+ <session-factory>
+  <property name="hibernate.proxool.pool_alias">
+   proxoolPool
+  </property>
+  <property name="hibernate.proxool.xml">
+   proxoolconf.xml
+  </property>
+  <property name="hibernate.connection.provider_class">
+   org.hibernate.service.jdbc.connections.internal.ProxoolConnectionProvider
+  </property>
+  <property name="hibernate.dialect">
+   org.hibernate.dialect.MySQLDialect
+  </property>
+  <property name="hibernate.show_sql">true</property>
+  <mapping resource="GoodsCategory.hbm.xml" />
+  <mapping resource="CustomerCategory.hbm.xml" />
+  <mapping resource="Goods.hbm.xml" />
+  <mapping resource="Stock.hbm.xml" />
+  <mapping resource="StoreHouse.hbm.xml" />
+  <mapping resource="PortIn.hbm.xml" />
+  <mapping resource="Customer.hbm.xml" />
+  <mapping resource="Discount.hbm.xml" />
+  <mapping resource="User.hbm.xml" />
+  <mapping resource="UserRole.hbm.xml" />
+  <mapping resource="Role.hbm.xml" />
+  <mapping resource="SalesIn.hbm.xml" />
+  <mapping resource="Module.hbm.xml" />
+  <mapping resource="InCome.hbm.xml" />
+  <mapping resource="OutCome.hbm.xml" />
+  <mapping resource="GiftIn.hbm.xml" />
+  <mapping resource="GiftOut.hbm.xml" />
+  
+ </session-factory>
+</hibernate-configuration>
