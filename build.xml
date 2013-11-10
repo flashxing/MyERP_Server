@@ -1,0 +1,58 @@
+<project name="helloapp" default="compile" basedir=".">
+  <property name="app.home"          value="."/> 
+  <property name="src.home"         value="${app.home}/src"/>
+  <property name="lib.home"         value="${app.home}/WEB-INF/lib"/>
+  <property name="classes.home"      value="${app.home}/WEB-INF/classes"/>
+  <property name="jar.home" value="${app.home}"/>
+  <property name="app" value="hello"/>
+<!--==================== Compilation Classpath=========================== -->
+   <!--
+        This section creates the classpath forcompilation.
+   -->
+    <pathconvert property="libs" pathsep=" ">  
+        <mapper>  
+            <chainedmapper>  
+                <flattenmapper />  
+                <globmapper from="*" to="WEB-INF/lib/*" />  
+            </chainedmapper>  
+        </mapper>  
+        <fileset dir="${lib.home}">  
+            <include name="*.jar" />  
+        </fileset>  
+    </pathconvert>  
+    <echo message="${libs}" /> 
+  <path id="compile.classpath">
+    <!-- The object files for this application-->
+    <pathelement location="${classes.home}"/>
+    <!-- The lib files for this application-->
+    <fileset dir="${lib.home}">
+        <include name="*.jar"/>
+    </fileset>
+  </path>
+<!--==================== "compile" Target================================ -->
+   <!--
+         This only compiles java files that arenewer
+         than their corresponding .class files.
+    -->
+  <target name="compile"  >
+   <javac srcdir="${src.home}" destdir="${classes.home}" debug="yes" includeantruntime="true">
+       <classpath refid="compile.classpath"/>
+   </javac>
+  </target>
+  <target name="jar" depends="compile">
+      <jar jarfile="${app.home}/${app}.jar" basedir="${classes.home}">
+        <manifest>
+            <attribute name="Main-Class" value="Helloworld"/>
+            <attribute name="Class-Path" value="${libs}"/>
+        </manifest>
+      </jar>
+  </target>  
+  <target name="run" depends="jar">
+      <java jar="${app}.jar" fork="true"/>
+  </target>  
+  <target name="clean">
+      <delete dir="${class.home}"/>
+      <delete dir="." includes="*.jar"/>
+  </target>    
+</project>
+
