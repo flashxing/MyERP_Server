@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2013 年 11 月 10 日 08:32
+-- 生成日期: 2013 年 11 月 20 日 13:54
 -- 服务器版本: 5.0.45
 -- PHP 版本: 5.2.5
 
@@ -24,7 +24,7 @@ CREATE TABLE `tb_category` (
   `cate_name` varchar(20) NOT NULL,
   `prefer_id` int(11) NOT NULL,
   PRIMARY KEY  (`cate_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
 -- 导出表中的数据 `tb_category`
@@ -36,7 +36,9 @@ INSERT INTO `tb_category` (`cate_id`, `cate_name`, `prefer_id`) VALUES
 (3, '测试分类1级3', 0),
 (4, '测试分类1级1-2级', 1),
 (5, '测试分类1级2-2级1', 2),
-(6, '测试分类1级2-2级1-3级1', 5);
+(6, '测试分类1级2-2级1-3级1', 5),
+(7, 'test', 5),
+(8, 'test1', 2);
 
 -- --------------------------------------------------------
 
@@ -66,8 +68,11 @@ CREATE TABLE `tb_customer` (
 --
 
 INSERT INTO `tb_customer` (`id`, `customername`, `zip`, `address`, `telephone`, `connectionperson`, `phone`, `bank`, `account`, `email`, `fax`, `available`, `cate_id`) VALUES
-('CSKH1', '测试客户1', '', '', '', '', '', '', '', '', '', 0, 3),
-('KH2', '客户2', '', '', '', '', '', '', '', '', '', 3, 0);
+('CSKH1', '测试客户1', '', '', '', '', '', '', '', '', '', 0, 4),
+('KH2', '客户2', '', '', '', '', '', '', '', '', '', 0, 4),
+('KH3', '客户3', '', '', '', '', '', '', '', '', '', 0, 6),
+('KH4', '客户4', '', '', '', '', '', '', '', '', '', 1, 6),
+('KH6', '客户6', '', '', '', '', '', '', '', '', '', 1, 6);
 
 -- --------------------------------------------------------
 
@@ -80,7 +85,7 @@ CREATE TABLE `tb_customer_category` (
   `cate_name` varchar(20) NOT NULL,
   `prefer_id` int(11) NOT NULL,
   PRIMARY KEY  (`cate_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- 导出表中的数据 `tb_customer_category`
@@ -88,7 +93,11 @@ CREATE TABLE `tb_customer_category` (
 
 INSERT INTO `tb_customer_category` (`cate_id`, `cate_name`, `prefer_id`) VALUES
 (2, '客户分类测试1级2', 0),
-(3, '客户分类测试2级1', 2);
+(3, '客户分类测试2级1', 2),
+(4, '客户分类测试2级2', 3),
+(6, '客户分类测试2级3', 3),
+(7, 'test1', 3),
+(8, 'test', 7);
 
 -- --------------------------------------------------------
 
@@ -108,7 +117,10 @@ CREATE TABLE `tb_discount` (
 
 INSERT INTO `tb_discount` (`customer_id`, `discount`) VALUES
 ('CSKH1', 0.9),
-('KH2', 0.85);
+('KH2', 0.85),
+('KH3', 0.87),
+('KH4', 1),
+('KH6', 1);
 
 -- --------------------------------------------------------
 
@@ -188,8 +200,10 @@ CREATE TABLE `tb_goods` (
 
 INSERT INTO `tb_goods` (`id`, `goodsname`, `produceplace`, `size`, `package`, `productcode`, `promitcode`, `description`, `price`, `providerid`, `cateid`, `last_sale_price`, `last_stock_price`, `goods_num`) VALUES
 ('10d8f0df7a5ae74c626af4860089d9fd', '商品2', '', '', '', 'SP2', '', '1.4m', 12, '', 4, 10.2, 13.3, 38),
-('4c477c3ee49682dab11510e8e72fccdd', '商品1', '', '', '', 'SP1', '', '1m', 15, '', 6, 0, 0, 0),
-('b91c80671861a851f8c9f0ae1c1d51ec', '商品3', '', '', '', 'SP3', '', '1.1m', 111, '', 6, 0, 13, 300);
+('471d87ab051696346625a5903284a87c', '商品5', '', '', '', 'SP5', '', '1m', 11, '', 3, 0, 0, 0),
+('4c477c3ee49682dab11510e8e72fccdd', '商品1', '', '', '', 'SP1', '', '1m', 15, '', 6, 0, 0, 35),
+('5d1b5c5d28bb956addd91d3c39428086', '商品4', '', '', '', 'SP4', '', '21m', 12.1, '', 3, 0, 0, 0),
+('b91c80671861a851f8c9f0ae1c1d51ec', '商品3', '', '', '', 'SP3', '', '1.1m', 111, '', 6, 0, 13, 200);
 
 -- --------------------------------------------------------
 
@@ -210,7 +224,8 @@ CREATE TABLE `tb_goods_discount` (
 
 INSERT INTO `tb_goods_discount` (`customer_id`, `goodsid`, `discount`) VALUES
 ('CSKH1', '4c477c3ee49682dab11510e8e72fccdd', 0.87),
-('KH2', 'b91c80671861a851f8c9f0ae1c1d51ec', 0.9);
+('KH2', 'b91c80671861a851f8c9f0ae1c1d51ec', 0.9),
+('KH3', '10d8f0df7a5ae74c626af4860089d9fd', 0.89);
 
 -- --------------------------------------------------------
 
@@ -235,6 +250,9 @@ CREATE TABLE `tb_income` (
 -- 导出表中的数据 `tb_income`
 --
 
+INSERT INTO `tb_income` (`id`, `receiver`, `sh_id`, `inporttime`, `operateperson`, `number`, `price`, `comment`, `goodsid`) VALUES
+('IC20131112225508', NULL, 1, '2013-11-12 22:55:08', 'test', 20, 0, '', '4c477c3ee49682dab11510e8e72fccdd'),
+('IC20131112225557', NULL, 1, '2013-11-12 22:55:57', 'test', 15, 0, '', '4c477c3ee49682dab11510e8e72fccdd');
 
 -- --------------------------------------------------------
 
@@ -332,6 +350,12 @@ CREATE TABLE `tb_outcome` (
 -- 导出表中的数据 `tb_outcome`
 --
 
+INSERT INTO `tb_outcome` (`id`, `receiver`, `sh_id`, `inporttime`, `operateperson`, `number`, `price`, `comment`, `goodsid`) VALUES
+('OC20131112223531', NULL, 2, '2013-11-12 22:35:31', 'test', 20, 0, '', 'b91c80671861a851f8c9f0ae1c1d51ec'),
+('OC20131112224410', NULL, 2, '2013-11-12 22:44:10', 'test', 20, 0, '', 'b91c80671861a851f8c9f0ae1c1d51ec'),
+('OC20131112224444', NULL, 2, '2013-11-12 22:44:44', 'test', 20, 0, '', 'b91c80671861a851f8c9f0ae1c1d51ec'),
+('OC20131112224526', NULL, 2, '2013-11-12 22:45:26', 'test', 20, 0, '', 'b91c80671861a851f8c9f0ae1c1d51ec'),
+('OC20131112224707', NULL, 2, '2013-11-12 22:47:07', 'test', 20, 0, '', 'b91c80671861a851f8c9f0ae1c1d51ec');
 
 -- --------------------------------------------------------
 
@@ -505,7 +529,8 @@ CREATE TABLE `tb_stock` (
   `goods_id` varchar(32) NOT NULL,
   `number` int(11) NOT NULL,
   `sh_id` int(11) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `goods_id` (`goods_id`,`sh_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -514,7 +539,8 @@ CREATE TABLE `tb_stock` (
 
 INSERT INTO `tb_stock` (`id`, `goods_id`, `number`, `sh_id`) VALUES
 (1, '10d8f0df7a5ae74c626af4860089d9fd', 38, 1),
-(2, 'b91c80671861a851f8c9f0ae1c1d51ec', 300, 2);
+(2, 'b91c80671861a851f8c9f0ae1c1d51ec', 200, 2),
+(3, '4c477c3ee49682dab11510e8e72fccdd', 35, 1);
 
 -- --------------------------------------------------------
 

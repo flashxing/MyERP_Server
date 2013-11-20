@@ -196,4 +196,34 @@ public class StockDao{
 			return id;
 		}
     }
+
+	@SuppressWarnings({ "unchecked", "finally" })
+	public Stock getStock(int shId, String goodsId) {
+		// TODO Auto-generated method stub
+		Session session = null;
+		List<Stock> list = null;
+		try{
+			session = HibernateUtil.getSession();
+			session.beginTransaction();
+			String sql = "from Stock where goods_id = '"+goodsId+"' and sh_id="+shId;
+			Query query = session.createQuery(sql);
+			list = new ArrayList<Stock>(query.list());
+			session.getTransaction().commit();
+		}catch(HibernateException ex){
+			ex.printStackTrace();
+			Server.logger.warn("get stock goods_id = '"+goodsId+"' and sh_id ="+shId+" failed");
+			list = null;
+			if(session != null){
+				session.getTransaction().rollback();
+			}
+		}finally{
+			if(session != null){
+				session.close();
+			}
+			if(list != null && list.size()>0){
+				return list.get(0);
+			}
+			return null;
+		}
+	}
 }

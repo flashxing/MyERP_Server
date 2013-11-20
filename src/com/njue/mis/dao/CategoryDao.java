@@ -213,7 +213,7 @@ public class CategoryDao{
 			if(category instanceof GoodsCategory){
 				sql = "from GoodsCategory where cate_name='"+category.getCate_name()+"' and prefer_id="+category.getPrefer_id();
 			}else{
-				sql = "from CategoryCategory where cate_name='"+category.getCate_name()+"' and prefer_id="+category.getPrefer_id(); 
+				sql = "from CustomerCategory where cate_name='"+category.getCate_name()+"' and prefer_id="+category.getPrefer_id(); 
 			}
 	    	Query query = session.createQuery(sql);
 	    	@SuppressWarnings("unchecked")

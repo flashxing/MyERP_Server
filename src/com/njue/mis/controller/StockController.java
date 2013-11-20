@@ -56,4 +56,10 @@ public class StockController extends UnicastRemoteObject implements StockControl
 		return stockService.getStock(id);
 	}
 
+	@Override
+	public Stock getStock(int shId, String goodsId) throws RemoteException {
+		// TODO Auto-generated method stub
+		return stockService.getStock(shId,goodsId);
+	}
+
 }

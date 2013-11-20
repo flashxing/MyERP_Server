@@ -70,7 +70,7 @@ public class GoodsHDao{
 		try{
 			session = HibernateUtil.getSession();
 			session.beginTransaction();
-			String sql = "from Goods";
+			String sql = "from Goods  order by goodsname";
 			Query query = session.createQuery(sql);
 			list = new Vector<Goods>(query.list());
 			session.getTransaction().commit();
@@ -177,7 +177,7 @@ public class GoodsHDao{
 		try{
 			session = HibernateUtil.getSession();
 			session.beginTransaction();
-			String sql = "from Goods where cateid = '"+cateId+"'";
+			String sql = "from Goods where cateid = '"+cateId+"' order by goodsname";
 			Query query = session.createQuery(sql);
 			list = new Vector<Goods>(query.list());
 			session.getTransaction().commit();
@@ -203,7 +203,7 @@ public class GoodsHDao{
 		try{
 			session = HibernateUtil.getSession();
 			session.beginTransaction();
-			String sql = "from Goods where goodsname like '%"+goodsName+"%'";
+			String sql = "from Goods where goodsname like '%"+goodsName+"%' order by goodsname";
 			Query query = session.createQuery(sql);
 			list = new Vector<Goods>(query.list());
 			session.getTransaction().commit();

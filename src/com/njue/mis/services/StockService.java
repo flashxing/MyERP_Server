@@ -39,6 +39,11 @@ public class StockService {
 	public Vector<Stock> getAllStock(){
 		return new Vector<Stock>(stockDao.getAll());
 	}
+
+	public Stock getStock(int shId, String goodsId) {
+		// TODO Auto-generated method stub
+		return stockDao.getStock(shId, goodsId);
+	}
 	
 	
 }

@@ -17,6 +17,8 @@ import com.njue.mis.controller.OperatorController;
 import com.njue.mis.controller.PortController;
 import com.njue.mis.controller.RoleController;
 import com.njue.mis.controller.SalesController;
+import com.njue.mis.controller.StockController;
+import com.njue.mis.controller.StockObjectController;
 import com.njue.mis.controller.StoreHouseController;
 import com.njue.mis.controller.UserController;
 import com.njue.mis.controller.UserRoleController;
@@ -28,6 +30,8 @@ import com.njue.mis.interfaces.OperatorControllerInterface;
 import com.njue.mis.interfaces.PortControllerInterface;
 import com.njue.mis.interfaces.RoleControllerInterface;
 import com.njue.mis.interfaces.SalesControllerInterface;
+import com.njue.mis.interfaces.StockControllerInterface;
+import com.njue.mis.interfaces.StockObjectControllerInterface;
 import com.njue.mis.interfaces.StoreHouseControllerInterface;
 import com.njue.mis.interfaces.UserControllerInterface;
 import com.njue.mis.interfaces.UserRoleControllerInterface;
@@ -97,6 +101,16 @@ public class Server {
 			UserRoleControllerInterface userRoleService = new UserRoleController();
 			Naming.bind(Configure.UserRoleController, userRoleService);
 			logger.info("binding userroleservice success");
+			
+			logger.info("binding stockObjectservice");
+			StockObjectControllerInterface stockObjectService = new StockObjectController();
+			Naming.bind(Configure.StockObjectController, stockObjectService);
+			logger.info("binding stockobjectservice success");
+			
+			logger.info("binding stockservice");
+			StockControllerInterface stockService = new StockController();
+			Naming.bind(Configure.StockController, stockService);
+			logger.info("binding stockservice success");
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
