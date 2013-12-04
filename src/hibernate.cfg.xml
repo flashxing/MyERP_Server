@@ -34,6 +34,8 @@
   <mapping resource="OutCome.hbm.xml" />
   <mapping resource="GiftIn.hbm.xml" />
   <mapping resource="GiftOut.hbm.xml" />
+  <mapping resource="ReceiptOut.hbm.xml" />
+  <mapping resource="ReceiptIn.hbm.xml" />
   
  </session-factory>
 </hibernate-configuration>

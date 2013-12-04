@@ -15,6 +15,7 @@ import com.njue.mis.controller.DiscountController;
 import com.njue.mis.controller.GoodsController;
 import com.njue.mis.controller.OperatorController;
 import com.njue.mis.controller.PortController;
+import com.njue.mis.controller.ReceiptController;
 import com.njue.mis.controller.RoleController;
 import com.njue.mis.controller.SalesController;
 import com.njue.mis.controller.StockController;
@@ -28,6 +29,7 @@ import com.njue.mis.interfaces.DiscountControllerInterface;
 import com.njue.mis.interfaces.GoodsControllerInterface;
 import com.njue.mis.interfaces.OperatorControllerInterface;
 import com.njue.mis.interfaces.PortControllerInterface;
+import com.njue.mis.interfaces.ReceiptControllerInterface;
 import com.njue.mis.interfaces.RoleControllerInterface;
 import com.njue.mis.interfaces.SalesControllerInterface;
 import com.njue.mis.interfaces.StockControllerInterface;
@@ -111,6 +113,12 @@ public class Server {
 			StockControllerInterface stockService = new StockController();
 			Naming.bind(Configure.StockController, stockService);
 			logger.info("binding stockservice success");
+			
+			logger.info("binding receiptservice");
+			ReceiptControllerInterface receiptService = new ReceiptController();
+			Naming.bind(Configure.ReceiptController, receiptService);
+			logger.info("binding receiptservice success");
+			
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
