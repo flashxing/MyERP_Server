@@ -33,6 +33,7 @@
    not-null="true" />
   <property name="cateId" column="cate_id" type="int"
       not-null="true" />
+  <one-to-one name="customerMoney" class="com.njue.mis.model.CustomerMoney" cascade="all" />
  </class>
 
 

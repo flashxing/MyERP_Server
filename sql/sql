@@ -1,0 +1,13 @@
+CREATE TABLE  `njue`.`tb_money_item` (
+`item_name` CHAR( 12 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+PRIMARY KEY (  `item_name` )
+) ENGINE = INNODB
+
+CREATE TABLE  `njue`.`tb_money` (
+`id` CHAR( 20 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`money` DOUBLE NOT NULL ,
+`time` DATETIME NOT NULL ,
+`operater` CHAR( 15 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+PRIMARY KEY (  `id` )
+) ENGINE = INNODB
+

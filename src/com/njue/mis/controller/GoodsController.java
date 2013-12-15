@@ -2,6 +2,7 @@ package com.njue.mis.controller;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 import java.util.Vector;
 
 import com.njue.mis.interfaces.GoodsControllerInterface;
@@ -73,6 +74,11 @@ public class GoodsController extends UnicastRemoteObject implements GoodsControl
 	public Vector<Goods> getAllGoodsByCateId(int cateId) {
 		// TODO Auto-generated method stub
 		return goodsService.getAllGoodsByCateId(cateId);
+	}
+	
+	@Override
+	public List<Goods> getAllGoodsByCateId(List<Integer> cateIds){
+		return goodsService.getAllGoodsByCateId(cateIds);
 	}
 
 	@Override

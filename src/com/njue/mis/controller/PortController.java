@@ -2,6 +2,7 @@ package com.njue.mis.controller;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 import java.util.Vector;
 
 import com.njue.mis.interfaces.PortControllerInterface;
@@ -64,6 +65,11 @@ public class PortController extends UnicastRemoteObject implements PortControlle
 			String endTime) throws RemoteException {
 		// TODO Auto-generated method stub
 		return portService.searchPortBackByTime(beginTime, endTime);
+	}
+	@Override
+	public List<List<PortIn>> searchPortInByTimeAndGoods(String beginTime,
+			String endTime, String[] goodsIds) throws RemoteException{
+		return portService.searchPortInByTimeAndGoods(beginTime, endTime, goodsIds);
 	}
 
 }

@@ -72,7 +72,12 @@ public class PortDAO extends CommonObjectDao
 	@SuppressWarnings({ "unchecked"})
 	public Vector<PortBack> searchPortBackByTime(String beginTime,String endTime)
 	{
-		return super.getAll("PortBack where outporttime>'"+beginTime+"' and outporttime<'"+endTime);
+		Vector<PortBack> tmp = super.getAll("PortBack where outporttime>'"+beginTime+"' and outporttime<'"+endTime);
+		Vector<PortBack> vector = new Vector<PortBack>();
+		for(PortBack port:tmp){
+			vector.add(port.clone());
+		}
+		return vector;
 	}
 	@SuppressWarnings({ "unchecked", "finally" })
 	public Vector<PortIn> searchPortInByTime(String beginTime,String endTime)
@@ -96,7 +101,11 @@ public class PortDAO extends CommonObjectDao
 			if(session != null){
 				session.close();
 			}
-			return list;
+			Vector<PortIn> vector = new Vector<PortIn>();
+			for(PortIn port:list){
+				vector.add(port.clone());
+			}
+			return vector;
 		}
 	}
 	
@@ -104,7 +113,12 @@ public class PortDAO extends CommonObjectDao
 	@SuppressWarnings("unchecked")
 	public Vector<PortBack> getAllPortBack()
 	{
-		return super.getAll("PortBack order by outporttime");
+		Vector<PortBack> tmp = super.getAll("PortBack order by outporttime");
+		Vector<PortBack> vector = new Vector<PortBack>();
+		for(PortBack port:tmp){
+			vector.add(port.clone());
+		}
+		return vector;
 	}
 	/**
 	 * 获取所有的进货信息
@@ -132,7 +146,11 @@ public class PortDAO extends CommonObjectDao
 			if(session != null){
 				session.close();
 			}
-			return list;
+			Vector<PortIn> vector = new Vector<PortIn>();
+			for(PortIn port:list){
+				vector.add(port.clone());
+			}
+			return vector;
 		}
 	}
 //	public static void main(String[] args)

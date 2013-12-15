@@ -13,7 +13,7 @@ import com.njue.mis.server.Server;
 
 public class CommonObjectDao {
 	@SuppressWarnings("finally")
-	protected Serializable save(Object object){
+	public Serializable save(Object object){
 		Session session = null;
 		Serializable result = null;
 		try{

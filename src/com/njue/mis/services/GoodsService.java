@@ -1,5 +1,7 @@
 package com.njue.mis.services;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import com.njue.mis.dao.GoodsHDao;
@@ -55,6 +57,14 @@ public class GoodsService{
 	public Vector<Goods> getAllGoodsByCateId(int cateId) {
 		// TODO Auto-generated method stub
 		return goodsDao.getAllGoodsByCategory(cateId);
+	}
+	
+	public List<Goods> getAllGoodsByCateId(List<Integer> cateIds){
+		List<Goods> result = new ArrayList<>();
+		for(Integer cateId:cateIds){
+			result.addAll(goodsDao.getAllGoodsByCategory(cateId));
+		}
+		return result;
 	}
 
 	public Vector<Goods> getAllGoodsByGoodsName(String goodsName) {

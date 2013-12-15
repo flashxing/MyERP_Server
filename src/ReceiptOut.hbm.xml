@@ -19,6 +19,11 @@
       not-null="true" /> 
   <property name="comment" column="comment" type="string"
    not-null="false" />
+  <list name="receiptItemDetailList" table="tb_receipt_item_list" lazy="false" cascade="all">
+            <key column="receipt_id" foreign-key = "id"/>
+            <index column="id" />
+            <one-to-many class="com.njue.mis.model.ReceiptItemDetail"/>
+  </list>
  </class>
 
 

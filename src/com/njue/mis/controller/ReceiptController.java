@@ -21,6 +21,7 @@ public class ReceiptController extends UnicastRemoteObject implements ReceiptCon
 	@Override
 	public String addReceipt(Receipt receipt) throws RemoteException {
 		// TODO Auto-generated method stub
+		System.out.println("add a receipt controller");
 		return receiptService.addReceipt(receipt);
 	}
 

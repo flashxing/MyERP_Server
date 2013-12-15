@@ -11,11 +11,16 @@ import org.apache.log4j.PropertyConfigurator;
 
 import com.njue.mis.controller.CategoryController;
 import com.njue.mis.controller.CustomerController;
+import com.njue.mis.controller.CustomerMoneyController;
 import com.njue.mis.controller.DiscountController;
 import com.njue.mis.controller.GoodsController;
+import com.njue.mis.controller.GoodsItemController;
+import com.njue.mis.controller.MoneyController;
+import com.njue.mis.controller.MoneyItemController;
 import com.njue.mis.controller.OperatorController;
 import com.njue.mis.controller.PortController;
 import com.njue.mis.controller.ReceiptController;
+import com.njue.mis.controller.ReceiptItemController;
 import com.njue.mis.controller.RoleController;
 import com.njue.mis.controller.SalesController;
 import com.njue.mis.controller.StockController;
@@ -25,11 +30,14 @@ import com.njue.mis.controller.UserController;
 import com.njue.mis.controller.UserRoleController;
 import com.njue.mis.interfaces.CategoryControllerInterface;
 import com.njue.mis.interfaces.CustomerControllerInterface;
+import com.njue.mis.interfaces.CustomerMoneyControllerInterface;
 import com.njue.mis.interfaces.DiscountControllerInterface;
 import com.njue.mis.interfaces.GoodsControllerInterface;
+import com.njue.mis.interfaces.GoodsItemControllerInterface;
 import com.njue.mis.interfaces.OperatorControllerInterface;
 import com.njue.mis.interfaces.PortControllerInterface;
 import com.njue.mis.interfaces.ReceiptControllerInterface;
+import com.njue.mis.interfaces.ReceiptItemControllerInterface;
 import com.njue.mis.interfaces.RoleControllerInterface;
 import com.njue.mis.interfaces.SalesControllerInterface;
 import com.njue.mis.interfaces.StockControllerInterface;
@@ -47,9 +55,18 @@ public class Server {
 		PropertyConfigurator.configure("src/log4j.property");
 		logger.info("Starting application.");
 		try {
+			Configure.init();
+			System.setProperty("java.rmi.server.hostname",Configure.getValue("OUTER"));
+			LocateRegistry.createRegistry((Integer.parseInt(Configure.getValue("PORT"))));
+			
+			logger.info("binding portInservice");
+			PortControllerInterface portInService = new PortController();
+			Naming.bind(Configure.PortInController,portInService);
+			portInService.getAllPortIn();
+			logger.info("bing portInservice success");
+			
 			logger.info("binding categoryservice");
 			CategoryControllerInterface categoryService = new CategoryController();
-			LocateRegistry.createRegistry(Configure.PORT);
 			Naming.bind(Configure.CategoryController, categoryService);
 			logger.info("bind categoryservice success");
 			
@@ -67,12 +84,6 @@ public class Server {
 			StoreHouseControllerInterface storeHouseService = new StoreHouseController();
 			Naming.bind(Configure.StoreHouseController,storeHouseService);
 			logger.info("bing storeHouseservice success");
-			
-			logger.info("binding portInservice");
-			PortControllerInterface portInService = new PortController();
-			Naming.bind(Configure.PortInController,portInService);
-			portInService.getAllPortIn();
-			logger.info("bing portInservice success");
 			
 			logger.info("binding customerservice");
 			CustomerControllerInterface customerService = new CustomerController();
@@ -118,6 +129,19 @@ public class Server {
 			ReceiptControllerInterface receiptService = new ReceiptController();
 			Naming.bind(Configure.ReceiptController, receiptService);
 			logger.info("binding receiptservice success");
+		
+			ReceiptItemControllerInterface receiptItemService = new ReceiptItemController();
+			Naming.bind(Configure.ReceiptItemController, receiptItemService);
+
+			CustomerMoneyControllerInterface customerMoneyService = new CustomerMoneyController();
+			Naming.bind(Configure.CustomerMoneyController, customerMoneyService);
+			
+			GoodsItemControllerInterface goodsItemService = new GoodsItemController();
+			Naming.bind(Configure.GoodsItemController, goodsItemService);
+			
+			Naming.bind(Configure.MoneyItemController, new MoneyItemController());
+
+			Naming.bind(Configure.MoneyController, new MoneyController());
 			
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
