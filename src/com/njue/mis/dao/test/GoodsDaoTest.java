@@ -16,8 +16,8 @@ public class GoodsDaoTest extends TestCase{
 	private Goods goods2;
 	public void setUp(){
 		goodsDao = new GoodsHDao();
-		goods1 = new Goods(CommonUtil.md5s("1tSP1"),"t商品1","上海","长1.1m","package","tSP1","promitCode","description", 12.5,"providerID",2);
-		goods2 = new Goods(CommonUtil.md5s("3tSP3"),"t商品3","上海","长1.1m","package","tSP3","promitCode","description", 12.5,"providerID",2);
+		goods1 = new Goods(CommonUtil.md5s("1tSP1"),"t商品1","上海","长1.1m","package","tSP1","promitCode","description", 12.5, 12.5*3,"providerID",2);
+		goods2 = new Goods(CommonUtil.md5s("3tSP3"),"t商品3","上海","长1.1m","package","tSP3","promitCode","description", 12.5, 12.5*3,"providerID",2);
 		
 	}
 	public void tearDown(){

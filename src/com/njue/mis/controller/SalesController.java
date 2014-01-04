@@ -2,6 +2,7 @@ package com.njue.mis.controller;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 import java.util.Vector;
 
 import com.njue.mis.interfaces.SalesControllerInterface;
@@ -12,6 +13,10 @@ import com.njue.mis.services.SalesService;
 
 public class SalesController extends UnicastRemoteObject implements
 		SalesControllerInterface {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2539522034361579062L;
 	private SalesService salesService;
 	public SalesController() throws RemoteException {
 		super();
@@ -66,6 +71,37 @@ public class SalesController extends UnicastRemoteObject implements
 			throws Exception {
 		// TODO Auto-generated method stub
 		return salesService.getAllSalesBackByTime(begin, end);
+	}
+
+	@Override
+	public List<SalesIn> getAllSalesDraft() throws Exception {
+		// TODO Auto-generated method stub
+		return salesService.getAllSalesDraft();
+	}
+
+	@Override
+	public List<SalesIn> getAllSalesDraft(String begin, String end)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return salesService.getAllSalesDraft(begin, end);
+	}
+
+	@Override
+	public boolean setSalesToPublished(SalesIn salesIn) throws Exception {
+		// TODO Auto-generated method stub
+		return salesService.setSalesToPublish(salesIn);
+	}
+
+	@Override
+	public boolean updateSales(Sales sales) throws Exception {
+		// TODO Auto-generated method stub
+		return salesService.updateSales(sales);
+	}
+
+	@Override
+	public boolean deleteSales(Sales sales) throws Exception {
+		// TODO Auto-generated method stub
+		return salesService.deleteSales(sales);
 	}
 
 }

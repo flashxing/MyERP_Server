@@ -6,8 +6,6 @@ package com.njue.mis.model;
 
 import java.io.Serializable;
 
-import com.njue.mis.common.ValidationManager;
-
 public class Goods implements Serializable
 {
 	/**
@@ -21,7 +19,8 @@ public class Goods implements Serializable
 	private String _package; //包装
 	private String productCode;  //生产批号
 	private String promitCode;  //批转文号
-	private double price;  //价格
+	private double price;  //进货价格
+	private double salesPrice; //销售价格
 	private String description;  //描述
 	private String providerId;  //供应商编号
 	private int cateId;  //状态 非0代表可用
@@ -41,6 +40,7 @@ public class Goods implements Serializable
 		this.productCode = good.getProductCode();
 		this.promitCode = good.getPromitCode();
 		this.price = good.getPrice();
+		this.salesPrice = good.salesPrice;
 		this.description = good.getDescription();
 		this.providerId = good.getProviderId();
 		this.cateId = good.getCateId();
@@ -57,6 +57,7 @@ public class Goods implements Serializable
 		this.productCode = good.getProductCode();
 		this.promitCode = good.getPromitCode();
 		this.price = good.getPrice();
+		this.salesPrice = good.salesPrice;
 		this.description = good.getDescription();
 		this.providerId = good.getProviderId();
 		this.cateId = good.getCateId();
@@ -66,7 +67,7 @@ public class Goods implements Serializable
 	}
 	public Goods(String id, String goodsName, String producePlace, String size,
 			String _package, String productCode, String promitCode,
-			String description,double price, String providerId)
+			String description,double price, double salesPrice, String providerId)
 	{
 		super();
 		this.id = id;
@@ -77,13 +78,14 @@ public class Goods implements Serializable
 		this.productCode = productCode;
 		this.promitCode = promitCode;
 		this.price = price;
+		this.salesPrice = salesPrice;
 		this.description = description;
 		this.providerId = providerId;
 	}
 	
 	public Goods(String id, String goodsName, String producePlace, String size,
 			String _package, String productCode, String promitCode,
-			String description,double price, String providerId,
+			String description,double price, double salesPrice, String providerId,
 			int cateId)
 	{
 		super();
@@ -95,6 +97,7 @@ public class Goods implements Serializable
 		this.productCode = productCode;
 		this.promitCode = promitCode;
 		this.price = price;
+		this.salesPrice = salesPrice;
 		this.description = description;
 		this.providerId = providerId;
 		this.cateId = cateId;
@@ -187,35 +190,6 @@ public class Goods implements Serializable
 	{
 		this.cateId = cateId;
 	}
-	
-	public Object getGoodsValue(int columnNumber)
-	{
-		switch (columnNumber)
-		{
-		case 0:
-			return ValidationManager.changeNull(getId());
-		case 1:
-			return ValidationManager.changeNull(getGoodsName());
-		case 2:
-			return ValidationManager.changeNull(getProducePlace());
-		case 3:
-			return ValidationManager.changeNull(getSize());
-		case 4:
-			return ValidationManager.changeNull(get_package());
-		case 5:
-			return ValidationManager.changeNull(getProductCode());
-		case 6:
-			return ValidationManager.changeNull(getPromitCode());
-		case 7:
-			return ValidationManager.changeNull(getDescription());
-		case 8:
-			return ValidationManager.changeNull(getPrice());
-		case 9:
-			return ValidationManager.changeNull(getProviderId());
-		default:
-			return "";
-		}
-	}
 	public double getLastSalePrice() {
 		return lastSalePrice;
 	}
@@ -234,4 +208,11 @@ public class Goods implements Serializable
 	public void setGoodsNum(int goodsNum) {
 		this.goodsNum = goodsNum;
 	}
+	public double getSalesPrice() {
+		return salesPrice;
+	}
+	public void setSalesPrice(double salesPrice) {
+		this.salesPrice = salesPrice;
+	}
+	
 }

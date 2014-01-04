@@ -1,5 +1,9 @@
 package com.njue.mis.server;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
@@ -9,6 +13,7 @@ import java.rmi.registry.LocateRegistry;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
+import com.njue.mis.controller.CardItemController;
 import com.njue.mis.controller.CategoryController;
 import com.njue.mis.controller.CustomerController;
 import com.njue.mis.controller.CustomerMoneyController;
@@ -23,6 +28,7 @@ import com.njue.mis.controller.ReceiptController;
 import com.njue.mis.controller.ReceiptItemController;
 import com.njue.mis.controller.RoleController;
 import com.njue.mis.controller.SalesController;
+import com.njue.mis.controller.SalesManController;
 import com.njue.mis.controller.StockController;
 import com.njue.mis.controller.StockObjectController;
 import com.njue.mis.controller.StoreHouseController;
@@ -49,10 +55,19 @@ import com.njue.mis.services.CategoryService;
 
 public class Server {
 	public static Logger logger = Logger.getLogger(CategoryService.class.getName());
+	private static InputStream inputFile;
 	public static void main(String[] args)
 	{
 		// BasicConfigurator replaced with PropertyConfigurator.
-		PropertyConfigurator.configure("src/log4j.property");
+		PropertyConfigurator.configure("conf/log4j.property");
+		try {
+			inputFile = new FileInputStream(new File("conf/erp.property"));
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+//		inputFile = Configure.class.getClassLoader().getResourceAsStream("erp.property");
+		Configure.inputFile = inputFile;
 		logger.info("Starting application.");
 		try {
 			Configure.init();
@@ -118,10 +133,13 @@ public class Server {
 			logger.info("binding stockObjectservice");
 			StockObjectControllerInterface stockObjectService = new StockObjectController();
 			Naming.bind(Configure.StockObjectController, stockObjectService);
+			stockObjectService.getAllGiftIn();
 			logger.info("binding stockobjectservice success");
 			
 			logger.info("binding stockservice");
 			StockControllerInterface stockService = new StockController();
+			String[] strings = {"1","2"};
+			stockService.searchStocksByTime(strings,"0000-00-00 00:00:00");
 			Naming.bind(Configure.StockController, stockService);
 			logger.info("binding stockservice success");
 			
@@ -143,6 +161,10 @@ public class Server {
 
 			Naming.bind(Configure.MoneyController, new MoneyController());
 			
+			Naming.bind(Configure.CardItemController, new CardItemController());
+			
+			Naming.bind(Configure.SalesManController, new SalesManController());
+			new SalesManController().getAllSalesMans();
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

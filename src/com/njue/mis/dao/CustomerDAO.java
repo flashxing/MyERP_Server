@@ -79,33 +79,8 @@ public class CustomerDAO extends CommonObjectDao
 	 * @param customer 封装好的客户新信息
 	 * @return 执行结果
 	 */
-	@SuppressWarnings("finally")
-	public boolean updateCustomer(Customer customer)
-	{
-		Session session = null;
-		boolean result = false;
-		try{
-			session = HibernateUtil.getSession();
-			session.beginTransaction();
-			Customer tmp = (Customer) session.get(Customer.class, customer.getId());
-			tmp.update(customer);
-			if(!isExisted(tmp.getId())){
-				session.getTransaction().commit();
-				result = true;	
-			}
-		}catch(HibernateException ex){
-			ex.printStackTrace();
-			Server.logger.warn("update "+customer+" failed");
-			if(session != null){
-				session.getTransaction().rollback();
-			}
-		}finally{
-			if(session != null){
-				session.close();
-			}
-			return result;
-		}
-		
+	public boolean updateCustomer(Customer customer){
+		return super.update(customer);
 	}
 	/**
      * 显示所有的客户

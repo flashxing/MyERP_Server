@@ -10,4 +10,19 @@ CREATE TABLE  `njue`.`tb_money` (
 `operater` CHAR( 15 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 PRIMARY KEY (  `id` )
 ) ENGINE = INNODB
-
+CREATE TABLE  `njue`.`tb_stock_item_list` (
+`id` CHAR( 20 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`item_id` INT NOT NULL ,
+`goods_id` CHAR( 32 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`number` INT NOT NULL ,
+`comment` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+PRIMARY KEY (  `id` ,  `item_id` )
+) ENGINE = INNODB
+CREATE TABLE  `njue`.`tb_card_item` (
+`card_name` CHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`card_number` CHAR( 20 ) NOT NULL ,
+PRIMARY KEY (  `card_name` )
+) ENGINE = INNODB
+ALTER TABLE  `tb_money` ADD  `card_name` CHAR( 10 ) NOT NULL ;
+ALTER TABLE  `tb_receiptin` ADD  `card_name` CHAR( 10 ) NOT NULL ;
+ALTER TABLE  `tb_receiptout` ADD  `card_name` CHAR( 10 ) NOT NULL ;

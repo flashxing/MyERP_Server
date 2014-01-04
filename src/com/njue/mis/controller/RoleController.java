@@ -10,6 +10,10 @@ import com.njue.mis.services.RoleService;
 
 public class RoleController extends UnicastRemoteObject implements RoleControllerInterface {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3420622516707554823L;
 	public RoleController() throws RemoteException {
 		super();
 		// TODO Auto-generated constructor stub

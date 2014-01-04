@@ -3,22 +3,14 @@ package com.njue.mis.common;
 import java.lang.reflect.Field;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
-
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-
-import com.njue.mis.dao.HibernateUtil;
-import com.njue.mis.model.Category;
-import com.njue.mis.model.Customer;
-import com.njue.mis.model.Goods;
-import com.njue.mis.server.Server;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class CommonUtil {
+	private static SimpleDateFormat formate =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private static SimpleDateFormat intFormat = new SimpleDateFormat("yyyyMMdd");
 	public static String md5s(String plainText) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
@@ -47,7 +39,7 @@ public class CommonUtil {
 		if(object.getClass()!=object1.getClass()){
 			return false;
 		}
-		Class myClass = object.getClass();
+		Class<?> myClass = object.getClass();
 		while(myClass!=Object.class){
 			for(Field field:myClass.getDeclaredFields()){
 				field.setAccessible(true);
@@ -66,20 +58,33 @@ public class CommonUtil {
 		}
 		return true;
 	}
-	public static void main(String[] args){
-		CommonUtil util = new CommonUtil();
-		Goods goods1 = new Goods();
-		goods1.setId("a");
-		Goods goods2 = new Goods();
-		goods2.setId("b");
-		Customer c1 = new Customer();
-		c1.setCateId(5);
-		Customer c2 = new Customer();
-		c2.setCateId(4);
-		util.updateObject(goods1, goods2);
-		System.out.println(util.md5s("商品A"));
-		System.out.println(goods1.getId());
-		util.updateObject(c1, c2);
-		System.out.println(c1.getCateId());
+	
+	public static int convertDateToInt(String date){
+		try {
+			Date date2 = formate.parse(date);
+			date = intFormat.format(date2);
+			return Integer.parseInt(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		}
+		
 	}
+//	public static void main(String[] args){
+//		CommonUtil util = new CommonUtil();
+//		Goods goods1 = new Goods();
+//		goods1.setId("a");
+//		Goods goods2 = new Goods();
+//		goods2.setId("b");
+//		Customer c1 = new Customer();
+//		c1.setCateId(5);
+//		Customer c2 = new Customer();
+//		c2.setCateId(4);
+//		util.updateObject(goods1, goods2);
+//		System.out.println(util.md5s("商品A"));
+//		System.out.println(goods1.getId());
+//		util.updateObject(c1, c2);
+//		System.out.println(c1.getCateId());
+//	}
 }

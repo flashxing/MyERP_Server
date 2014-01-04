@@ -10,6 +10,10 @@ import com.njue.mis.model.User;
 
 public class UserController extends UnicastRemoteObject implements
 		UserControllerInterface {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1678298131796327597L;
 	private UserDao userDao = new UserDao();
 	public UserController() throws RemoteException {
 		super();

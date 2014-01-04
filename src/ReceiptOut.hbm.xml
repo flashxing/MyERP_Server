@@ -19,7 +19,9 @@
       not-null="true" /> 
   <property name="comment" column="comment" type="string"
    not-null="false" />
-  <list name="receiptItemDetailList" table="tb_receipt_item_list" lazy="false" cascade="all">
+   <property name="cardName" column="card_name" type="string"
+      not-null="true" />
+  <list name="receiptItemDetailList" table="tb_receipt_item_list" lazy="false" cascade="all"  inverse="true">
             <key column="receipt_id" foreign-key = "id"/>
             <index column="id" />
             <one-to-many class="com.njue.mis.model.ReceiptItemDetail"/>

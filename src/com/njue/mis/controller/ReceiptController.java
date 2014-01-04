@@ -11,6 +11,10 @@ import com.njue.mis.model.ReceiptOut;
 import com.njue.mis.services.ReceiptService;
 
 public class ReceiptController extends UnicastRemoteObject implements ReceiptControllerInterface{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4062695743156306229L;
 	private ReceiptService receiptService;
 	public ReceiptController() throws RemoteException {
 		super();

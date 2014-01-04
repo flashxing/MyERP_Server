@@ -2,6 +2,8 @@ package com.njue.mis.dao;
 
 
 
+import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,32 +15,27 @@ import com.njue.mis.model.Stock;
 import com.njue.mis.server.Server;
 
 
-public class StockDao{
-	@SuppressWarnings("finally")
+public class StockDao extends CommonObjectDao{
 	public int saveStock(Stock stock)
 	{
-		Session session = null;
-		int id = -1;
-		try{
-			session = HibernateUtil.getSession();
-			session.beginTransaction();
-			if ((id=this.getStockId(stock))<0){
-				id = (Integer) session.save(stock);
+		Serializable id = null;
+		Stock existStock = getStockByGoodsAndTime(stock.getGoodsId(), stock.getTime(), stock.getShId());
+		if(existStock != null){
+			if(existStock.getTime() == stock.getTime()){
+				joinStock(existStock, stock);
+				if(updateStock(existStock)){
+					id = existStock.getId();
+				}else{
+					id = null;
+				}
+			}else{
+				joinStock(stock, existStock);
+				id = super.save(stock);
 			}
-			session.getTransaction().commit();
-		}catch(HibernateException ex){
-			ex.printStackTrace();
-			Server.logger.warn("Save "+stock+" failed");
-			if(session != null){
-				session.getTransaction().rollback();
-			}
-			id = -1;
-		}finally{
-			if(session != null){
-				session.close();
-			}
-			return id;
+		}else {
+			id = super.save(stock);
 		}
+		return id!=null?1:0;
 	}
 	
 	@SuppressWarnings("finally")
@@ -65,78 +62,60 @@ public class StockDao{
 		}
 	}
 	
-	@SuppressWarnings("finally")
 	public boolean delStock(Stock stock)
 	{
-		int id;
-		if(stock.getId() == 0){
-			id = this.getStockId(stock);
+		Serializable id = null;
+		Stock existStock = getStockByGoodsAndTime(stock.getGoodsId(), stock.getTime(), stock.getShId());
+		if(existStock != null){
+			if(existStock.getNumber()>stock.getNumber()){
+				if(existStock.getTime() == stock.getTime()){
+					existStock.setNumber(existStock.getNumber()-stock.getNumber());
+					return super.update(existStock);
+				}else{
+					stock.setNumber(existStock.getNumber()-stock.getNumber());
+					stock.setPrice(existStock.getPrice());
+					Server.logger.debug(stock.getGoodsId()+" "+stock.getTime()+" "+stock.getShId());
+					id = super.save(stock);
+					return id!=null;
+				}
+			}else{
+				return false;
+			}
 		}else{
-			id = stock.getId();
-		}
-		Stock tmp_stock = getStock(id);
-		if(tmp_stock == null){
-			Server.logger.warn("No stock:"+stock.getId()+" existed");
 			return false;
-		}
-		tmp_stock.setNumber(tmp_stock.getNumber()-stock.getNumber());
-		if(tmp_stock.getNumber() > 0){
-			return updateStock(tmp_stock);
-		}else if(tmp_stock.getNumber() < 0){
-			Server.logger.warn("No enough goods in the stock");
-			return false;
-		}
-		Session session = null;
-		boolean result = false;
-		try{
-			session = HibernateUtil.getSession();
-			session.beginTransaction();
-			session.delete(stock);
-			session.getTransaction().commit();
-			result = true;
-		}catch(HibernateException ex){
-			ex.printStackTrace();
-			Server.logger.warn("delete "+stock+" failed");
-			if(session != null){
-				session.getTransaction().rollback();
-			}
-		}finally{
-			if(session != null){
-				session.close();
-			}
-			return result;
 		}
 	}
 	
 	@SuppressWarnings("finally")
 	public boolean updateStock(Stock stock)
 	{
-		if(stock.getNumber()<0){
-			return false;
-		}
-		Session session = null;
-		Stock tmp_stock = null;
-		boolean result = false;
-		try{
-			session = HibernateUtil.getSession();
-			session.beginTransaction();
-			tmp_stock = (Stock) session.get(Stock.class,stock.getId());
-			tmp_stock.setGoodsId(stock.getGoodsId());
-			tmp_stock.setNumber(stock.getNumber());
-			session.getTransaction().commit();
-			result = true;
-		}catch(HibernateException ex){
-			ex.printStackTrace();
-			Server.logger.warn("update "+stock+" failed");
-			if(session != null){
-				session.getTransaction().rollback();
-			}
-		}finally{
-			if(session != null){
-				session.close();
-			}
-			return result;
-		}
+//		if(stock.getNumber()<0){
+//			return false;
+//		}
+//		Session session = null;
+//		Stock tmp_stock = null;
+//		boolean result = false;
+//		try{
+//			session = HibernateUtil.getSession();
+//			session.beginTransaction();
+//			tmp_stock = (Stock) session.get(Stock.class,stock.getId());
+//			tmp_stock.setGoodsId(stock.getGoodsId());
+//			tmp_stock.setNumber(stock.getNumber());
+//			session.getTransaction().commit();
+//			result = true;
+//		}catch(HibernateException ex){
+//			ex.printStackTrace();
+//			Server.logger.warn("update "+stock+" failed");
+//			if(session != null){
+//				session.getTransaction().rollback();
+//			}
+//		}finally{
+//			if(session != null){
+//				session.close();
+//			}
+//			return result;
+//		}
+		return super.update(stock);
 	}
 	/*
 	 * @returns List<Stock> all category in the db
@@ -196,6 +175,28 @@ public class StockDao{
 			return id;
 		}
     }
+    
+    public Stock getStockByGoodsAndTime(String goodsId, int time, int shId){
+    	String sqlString = "Stock where goods_id = '"+goodsId+"' and sh_id="+shId+" and time <="+time+" order by time DESC";
+    	@SuppressWarnings("unchecked")
+		List<Stock> stocks = super.getLastN(sqlString, 1);
+    	if(stocks.size()>0){
+    		return stocks.get(0);
+    	}else {
+			return null;
+		}
+    }
+    
+    public Stock getLastStockByTime(String goodsId, int time, int shId){
+    	String sqlString = "Stock where goods_id = '"+goodsId+"' and sh_id="+shId+" and time <"+time+" order by time DESC";
+    	@SuppressWarnings("unchecked")
+		List<Stock> stocks = super.getLastN(sqlString, 1);
+    	if(stocks.size()>0){
+    		return stocks.get(0);
+    	}else{
+    		return null;
+    	}
+    }
 
 	@SuppressWarnings({ "unchecked", "finally" })
 	public Stock getStock(int shId, String goodsId) {
@@ -225,5 +226,22 @@ public class StockDao{
 			}
 			return null;
 		}
+	}
+	
+	public void joinStock(Stock stock1, Stock stock2){
+		stock1.setNumber(stock1.getNumber()+stock2.getNumber());
+		double price = 0;
+		if(stock2.getPrice() == 0){
+			price = stock1.getPrice();
+		}else if(stock1.getPrice() == 0) {
+			price = stock2.getPrice();
+		}else{
+			double first = stock1.getPrice()*stock1.getNumber();
+			double second = stock2.getPrice()*stock2.getNumber();
+			DecimalFormat dFormat = new DecimalFormat(".##");
+			Double result = (first+second)/(stock1.getNumber()+stock2.getNumber());
+			price = Double.parseDouble(dFormat.format(result));
+		}
+		stock1.setPrice(price);
 	}
 }

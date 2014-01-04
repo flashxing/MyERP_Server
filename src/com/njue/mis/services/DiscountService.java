@@ -14,7 +14,11 @@ public class DiscountService {
 	}
 	
 	public Discount get(String id){
-		return discountDao.get(id);
+		Discount discount = discountDao.get(id);
+		if(discount == null){
+			return new Discount();
+		}
+		return discount;
 	}
 	
 	public boolean update(Discount discount){

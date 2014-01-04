@@ -24,6 +24,7 @@
   <path id="compile.classpath">
     <!-- The object files for this application-->
     <pathelement location="${classes.home}"/>
+    <pathelement location="${app.home}"/>
     <!-- The lib files for this application-->
     <fileset dir="${lib.home}">
         <include name="*.jar"/>

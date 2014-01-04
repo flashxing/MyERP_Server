@@ -1,15 +1,13 @@
 package com.njue.mis.server;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
-import com.njue.mis.common.CommonUtil;
 
 
 public class Configure {
 	private static Properties propertie;
-	private static InputStream inputFile;
+	public static InputStream inputFile;
 	public static String CategoryController =null;
 	public static String OperatorController =null;
 	public static String GoodsController =null;
@@ -29,11 +27,12 @@ public class Configure {
 	public static String GoodsItemController = null;
 	public static String MoneyItemController = null;
 	public static String MoneyController = null;
+	public static String CardItemController = null;
+	public static String SalesManController = null;
 //	public final static String IP = "localhost:3333";
 	public final static int init(){
 		propertie = new Properties();
 		try{
-			inputFile = Configure.class.getClassLoader().getResourceAsStream("erp.property");
 			propertie.load(inputFile);
 			ReceiptController = "rmi://"+getValue("IP")+"/ReceiptController";
 			StockController = "rmi://"+getValue("IP")+"/StockController";
@@ -54,6 +53,8 @@ public class Configure {
 			GoodsItemController = "rmi://"+getValue("IP")+"/GoodsItemController";
 			MoneyItemController = "rmi://"+getValue("IP")+"/MoneyItemController";
 			MoneyController = "rmi://"+getValue("IP")+"/MoneyController";
+			CardItemController = "rmi://"+getValue("IP")+"/CardItemController";
+			SalesManController = "rmi://"+getValue("IP")+"/SalesManController";
 			inputFile.close();
 			return 1;
 		}catch(Exception ex){

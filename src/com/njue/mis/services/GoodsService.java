@@ -71,4 +71,13 @@ public class GoodsService{
 		// TODO Auto-generated method stub
 		return goodsDao.getAllGoodsByGoodsName(goodsName);
 	}
+
+	public List<Goods> getGoods(List<String> goodsIdList) {
+		// TODO Auto-generated method stub
+		List<Goods> goodsList = new ArrayList<>();
+		for(String id: goodsIdList){
+			goodsList.add(goodsDao.getGoodsInfo(id));
+		}
+		return goodsList;
+	}
 }

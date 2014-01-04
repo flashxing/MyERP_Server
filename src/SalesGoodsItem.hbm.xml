@@ -16,6 +16,8 @@
       not-null="true" />
   <property name="unitPrice" column="unit_price" type="double"
       not-null="true" />
+    <property name="totalPrice" column="total_price" type="double"
+      not-null="true" />
   <property name="comment" column="comment" type="string"
       not-null="false" />
   

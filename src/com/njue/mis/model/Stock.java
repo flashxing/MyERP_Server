@@ -11,14 +11,18 @@ public class Stock implements Serializable{
 	private String goodsId;
 	private int number;
 	private int shId;
+	private int time;
+	private double price;
 	
 	public Stock(){
 		
 	}
-	public Stock(String goodsId, int shId, int number){
+	public Stock(String goodsId, int shId, int number, int time, double price){
 		this.goodsId = goodsId;
 		this.shId = shId;
 		this.number = number;
+		this.time = time;
+		this.price = price;
 	}
 	public void update(Stock stock){
 		this.id = stock.getId();
@@ -56,5 +60,17 @@ public class Stock implements Serializable{
 
 	public void setShId(int shId) {
 		this.shId = shId;
+	}
+	public int getTime() {
+		return time;
+	}
+	public void setTime(int time) {
+		this.time = time;
+	}
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
 	}
 }

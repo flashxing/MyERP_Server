@@ -2,10 +2,9 @@ package com.njue.mis.controller;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Vector;
+import java.util.List;
 
 import com.njue.mis.interfaces.StockObjectControllerInterface;
-import com.njue.mis.model.Gift;
 import com.njue.mis.model.GiftIn;
 import com.njue.mis.model.GiftOut;
 import com.njue.mis.model.InCome;
@@ -16,6 +15,10 @@ import com.njue.mis.services.StockObjectService;
 
 public class StockObjectController extends UnicastRemoteObject implements
 		StockObjectControllerInterface {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1798218662042023938L;
 	private StockObjectService stockObjectService;
 	public StockObjectController() throws RemoteException {
 		super();
@@ -35,13 +38,13 @@ public class StockObjectController extends UnicastRemoteObject implements
 	}
 
 	@Override
-	public Vector<GiftIn> getAllGiftIn() throws RemoteException {
+	public List<GiftIn> getAllGiftIn() throws RemoteException {
 		// TODO Auto-generated method stub
 		return stockObjectService.getAllGiftIn();
 	}
 
 	@Override
-	public Vector<GiftOut> getAllGiftOut() throws RemoteException {
+	public List<GiftOut> getAllGiftOut() throws RemoteException {
 		// TODO Auto-generated method stub
 		return stockObjectService.getAllGiftOut();
 	}
@@ -85,13 +88,13 @@ public class StockObjectController extends UnicastRemoteObject implements
 	}
 
 	@Override
-	public Vector<InCome> getAllInCome() throws RemoteException {
+	public List<InCome> getAllInCome() throws RemoteException {
 		// TODO Auto-generated method stub
 		return stockObjectService.getAllInCome();
 	}
 
 	@Override
-	public Vector<OutCome> getAllOutCome() throws RemoteException {
+	public List<OutCome> getAllOutCome() throws RemoteException {
 		// TODO Auto-generated method stub
 		return stockObjectService.getAllOutCome();
 	}

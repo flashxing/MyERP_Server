@@ -9,6 +9,10 @@ import com.njue.mis.model.Customer;
 import com.njue.mis.services.CustomerService;
 
 public class CustomerController extends UnicastRemoteObject implements CustomerControllerInterface {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8427498236673649256L;
 	private CustomerService customerService = new CustomerService();
 	public CustomerController() throws RemoteException {
 		super();

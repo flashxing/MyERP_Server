@@ -1,6 +1,8 @@
 package com.njue.mis.dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import org.hibernate.HibernateException;
@@ -86,6 +88,30 @@ public class CommonObjectDao {
 	}
 	
 	@SuppressWarnings("finally")
+	public boolean update(Object object){
+		Session session = null;
+		boolean result = false;
+		try{
+			session = HibernateUtil.getSession();
+			session.beginTransaction();
+			session.update(object);
+			session.getTransaction().commit();
+			result = true;
+		}catch(HibernateException ex){
+			ex.printStackTrace();
+			Server.logger.warn("update "+object+" failed");
+			if(session != null){
+				session.getTransaction().rollback();
+			}
+		}finally{
+			if(session != null){
+				session.close();
+			}
+			return result;
+		}
+	}
+	
+	@SuppressWarnings("finally")
 	public boolean update(Object object,Serializable id){
 		Session session = null;
 		boolean result = false;
@@ -119,6 +145,33 @@ public class CommonObjectDao {
 			String sql = "from "+table;
 			Query query = session.createQuery(sql);
 			result = new Vector(query.list());
+			session.getTransaction().commit();
+		}catch(HibernateException ex){
+			ex.printStackTrace();
+			Server.logger.warn("get all "+table+" failed");
+			if(session != null){
+				session.getTransaction().rollback();
+			}
+		}finally{
+			if(session != null){
+				session.close();
+			}
+			return result;
+		}
+	}
+	
+	@SuppressWarnings({ "finally", "unchecked", "rawtypes" })
+	public List getLastN(String table, int n){
+		Session session = null;
+		List result = null;
+		try{
+			session = HibernateUtil.getSession();
+			session.beginTransaction();
+			String sql = "from "+table;
+			Query query = session.createQuery(sql);
+			query.setFirstResult(0);
+			query.setMaxResults(n);
+			result = new ArrayList<>(query.list());
 			session.getTransaction().commit();
 		}catch(HibernateException ex){
 			ex.printStackTrace();

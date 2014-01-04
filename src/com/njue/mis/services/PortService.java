@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import com.njue.mis.common.CommonUtil;
 import com.njue.mis.dao.PortDAO;
 import com.njue.mis.model.CustomerMoney;
 import com.njue.mis.model.Goods;
@@ -21,6 +22,11 @@ public class PortService {
 	private CustomerMoneyService customerMoneyService = new CustomerMoneyService();
 	
 	public String addPortBack(PortBack portBack){
+		int time = CommonUtil.convertDateToInt(portBack.getTime());
+		if(time == 0){
+			Server.logger.warn("Failed to save the Port for time is error"+portBack.getTime());
+			return null;
+		}
 		String result = portDao.addPort(portBack);
 		if(result == null){
 			Server.logger.warn("Failed to save the PortIn:"+portBack);
@@ -31,7 +37,7 @@ public class PortService {
 			String goodsId = item.getGoodsId();
 			int shId = portBack.getStoreHouseId();
 			int number = item.getNumber();
-			Stock stock = new Stock(goodsId,shId,number);
+			Stock stock = new Stock(goodsId,shId,number,time, item.getUnitPrice());
 			if(!stockService.deleteStock(stock)){
 				Server.logger.warn("Failed to delete stock:"+stock);
 				portDao.deletePort(portBack);
@@ -60,7 +66,12 @@ public class PortService {
 		}
 		return result;
 	}
-	public String addPortIn(PortIn portIn){
+	public String addPortIn(PortIn portIn){		
+		int time = CommonUtil.convertDateToInt(portIn.getTime());
+		if(time == 0){
+			Server.logger.warn("Failed to save the Port for time is error"+portIn.getTime());
+			return null;
+		}
 		String result = portDao.addPort(portIn);
 		if(result == null){
 			Server.logger.warn("Failed to save the PortIn:"+portIn);
@@ -71,7 +82,7 @@ public class PortService {
 			String goodsId = item.getGoodsId();
 			int shId = portIn.getStoreHouseId();
 			int number = item.getNumber();
-			Stock stock = new Stock(goodsId,shId,number);
+			Stock stock = new Stock(goodsId,shId,number,time,item.getUnitPrice());
 			if(stockService.addStock(stock)<0){
 				Server.logger.warn("Failed to add stock:"+stock);
 				portDao.deletePort(portIn);

@@ -11,6 +11,10 @@ import com.njue.mis.model.UserRole;
 public class UserRoleController extends UnicastRemoteObject implements
 		UserRoleControllerInterface {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4910989975953508469L;
 	private UserRoleDao userRoleDao = new UserRoleDao();
 	public UserRoleController() throws RemoteException {
 		super();

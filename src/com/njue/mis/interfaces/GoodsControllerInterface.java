@@ -71,5 +71,5 @@ public interface GoodsControllerInterface extends Remote
 	public List<Goods> getAllGoodsByCateId(List<Integer> cateIds) throws RemoteException;
 	
 	public Vector<Goods> getAllGoodsByGoodsName(String goodsName) throws RemoteException;
-
+	public List<Goods> getGoods(List<String> goodsIdList) throws RemoteException;
 }

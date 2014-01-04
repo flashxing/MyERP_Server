@@ -87,5 +87,12 @@ public class GoodsController extends UnicastRemoteObject implements GoodsControl
 		// TODO Auto-generated method stub
 		return goodsService.getAllGoodsByGoodsName(goodsName);
 	}
+
+	@Override
+	public List<Goods> getGoods(List<String> goodsIdList)
+			throws RemoteException {
+		// TODO Auto-generated method stub
+		return goodsService.getGoods(goodsIdList);
+	}
 	
 }

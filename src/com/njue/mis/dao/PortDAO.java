@@ -72,7 +72,7 @@ public class PortDAO extends CommonObjectDao
 	@SuppressWarnings({ "unchecked"})
 	public Vector<PortBack> searchPortBackByTime(String beginTime,String endTime)
 	{
-		Vector<PortBack> tmp = super.getAll("PortBack where outporttime>'"+beginTime+"' and outporttime<'"+endTime);
+		Vector<PortBack> tmp = super.getAll("PortBack where outporttime>'"+beginTime+"' and outporttime<'"+endTime+"'");
 		Vector<PortBack> vector = new Vector<PortBack>();
 		for(PortBack port:tmp){
 			vector.add(port.clone());

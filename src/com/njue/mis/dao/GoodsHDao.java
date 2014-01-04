@@ -11,7 +11,7 @@ import com.njue.mis.common.CommonUtil;
 import com.njue.mis.model.Goods;
 import com.njue.mis.server.Server;
 
-public class GoodsHDao{
+public class GoodsHDao extends CommonObjectDao{
 	@SuppressWarnings("finally")
 	public String addGoods(Goods goods){
 		Session session = null;
@@ -141,33 +141,9 @@ public class GoodsHDao{
 		}
 	}
 	
-	@SuppressWarnings("finally")
 	public boolean updateGoods(Goods goods){
-		Session session = null;
-		Goods tmp_goods = null;
-		boolean result = false;
-		try{
-			session = HibernateUtil.getSession();
-			session.beginTransaction();
-			tmp_goods = (Goods) session.get(Goods.class, goods.getId());
-			tmp_goods.update(goods);
-			if(((tmp_goods.getCateId() == goods.getCateId())&&(tmp_goods.getProductCode() == goods.getProductCode()))
-					||(!isExisted(CommonUtil.md5s(tmp_goods.getCateId()+tmp_goods.getProductCode())))){
-				session.getTransaction().commit();
-				result = true;	
-			}
-		}catch(HibernateException ex){
-			ex.printStackTrace();
-			Server.logger.warn("update "+goods+" failed");
-			if(session != null){
-				session.getTransaction().rollback();
-			}
-		}finally{
-			if(session != null){
-				session.close();
-			}
-			return result;
-		}
+		goods.setId(CommonUtil.md5s(goods.getCateId()+goods.getProductCode()));
+		return super.update(goods);
 	}
 	
 	@SuppressWarnings({ "unchecked", "finally" })

@@ -12,16 +12,18 @@ public class SalesGoodsItem implements Serializable{
 	private String goodsId;
 	private int number;
 	private double unitPrice;
+	private double totalPrice;
 	private String comment;
 	public SalesGoodsItem(){
 		
 	}
-	public SalesGoodsItem(int id, String portId, String goodsId, int number, double unitPrice, String comment){
+	public SalesGoodsItem(int id, String portId, String goodsId, int number, double unitPrice, Double totalPrice, String comment){
 		this.id = id;
 		this.portId = portId;
 		this.goodsId = goodsId;
 		this.number = number;
 		this.unitPrice = unitPrice;
+		this.totalPrice = totalPrice;
 		this.comment =comment;
 	}
 	public int getId() {
@@ -61,7 +63,14 @@ public class SalesGoodsItem implements Serializable{
 	public void setPortId(String portId) {
 		this.portId = portId;
 	}
+	
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
 	public SalesGoodsItem clone(){
-		return new SalesGoodsItem(id, portId, goodsId, number, unitPrice, comment);
+		return new SalesGoodsItem(id, portId, goodsId, number, unitPrice, totalPrice, comment);
 	}
 }

@@ -155,7 +155,7 @@ public class CategoryDao{
 		try{
 			session = HibernateUtil.getSession();
 			session.beginTransaction();
-			String sql = "from GoodsCategory as cate order by cate.prefer_id";
+			String sql = "from GoodsCategory as cate order by cate.cate_id";
 			Query query = session.createQuery(sql);
 			list = new ArrayList<Category>(query.list());
 			session.getTransaction().commit();
@@ -180,7 +180,7 @@ public class CategoryDao{
 		try{
 			session = HibernateUtil.getSession();
 			session.beginTransaction();
-			String sql = "from CustomerCategory as cate order by cate.prefer_id";
+			String sql = "from CustomerCategory as cate order by cate.cate_id";
 			Query query = session.createQuery(sql);
 			list = new ArrayList<Category>(query.list());
 			session.getTransaction().commit();

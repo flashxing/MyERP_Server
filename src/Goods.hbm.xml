@@ -25,6 +25,8 @@
       not-null="false"/>
   <property name="price" column="price" type="double"
       not-null="true"/>
+  <property name="salesPrice" column="sales_price" type="double"
+      not-null="true"/>
   <property name="providerId" column="providerid" type="string"
       not-null="true"/>
   <property name="cateId" column="cateid" type="int"

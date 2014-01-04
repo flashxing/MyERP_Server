@@ -25,6 +25,11 @@
    not-null="false" />
   <property name="receiver" column="receiver" type="string"
       not-null="false" />
+        <list name="stockItems" table="tb_stock_item_list" lazy="false" cascade="all"  inverse="true">
+            <key column="id" foreign-key = "id"/>
+            <index column="item_id" />
+            <one-to-many class="com.njue.mis.model.StockItem"/>
+  </list>
  </class>
 
 

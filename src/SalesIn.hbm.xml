@@ -19,6 +19,8 @@
    not-null="false" />
   <property name="totalPrice" column="money" type="double"
    not-null="false" />
+  <property name="decreasePrice" column="decrease_price" type="double"
+   not-null="false" />
   <property name="operatePerson" column="operatePerson" type="string"
    not-null="false" />
   <property name="comment" column="comment" type="string"
@@ -29,7 +31,11 @@
       not-null="true" />
   <property name="shId" column="storehouseid" type="int"
       not-null="true" />
-    <list name="goodsItemsList" table="tb_sales_goods_item" lazy="false" cascade="all">
+  <property name="isPublished" column="is_published" type="int"
+      not-null="true" />
+  <property name="salesMan" column="sales_man" type="string"
+      not-null="false" />
+  <list name="goodsItemsList" table="tb_sales_goods_item" lazy="false" cascade="all" inverse="true">
             <key column="port_id" foreign-key = "id"/>
             <index column="id" />
             <one-to-many class="com.njue.mis.model.SalesGoodsItem"/>

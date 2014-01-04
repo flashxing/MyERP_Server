@@ -7,16 +7,16 @@
 <hibernate-mapping>
 
  <class name="com.njue.mis.model.Stock" table="tb_stock">
-  <id name="id" column="id" type="int">
-   <generator class="increment" />
-  </id>
-  <property name="goodsId" column="goods_id" type="string"
+  <composite-id>
+     <key-property name="goodsId" column="goods_id" type="string" />
+     <key-property name="id" column="id" type="int" />
+     <key-property name="time" column="time" type="int" />
+     <key-property name="shId" column="sh_id" type="int" />
+ </composite-id>
+  <property name="price" column="price" type="double"
    not-null="true" />
   <property name="number" column="number" type="int"
    not-null="true" />
-  <property name="shId" column="sh_id" type="int"
-      not-null="true" />
- 
  </class>
 
 

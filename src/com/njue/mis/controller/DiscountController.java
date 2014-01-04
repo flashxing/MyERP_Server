@@ -9,6 +9,10 @@ import com.njue.mis.services.DiscountService;
 
 public class DiscountController extends UnicastRemoteObject implements DiscountControllerInterface{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3975417780342525549L;
 	private DiscountService discountService = new DiscountService();
 	public DiscountController() throws RemoteException {
 		super();

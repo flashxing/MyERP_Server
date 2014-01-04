@@ -2,6 +2,7 @@ package com.njue.mis.controller;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 import java.util.Vector;
 
 import com.njue.mis.interfaces.StockControllerInterface;
@@ -60,6 +61,13 @@ public class StockController extends UnicastRemoteObject implements StockControl
 	public Stock getStock(int shId, String goodsId) throws RemoteException {
 		// TODO Auto-generated method stub
 		return stockService.getStock(shId,goodsId);
+	}
+
+	@Override
+	public List<Stock> searchStocksByTime(String[] goodsIds, String time)
+			throws RemoteException {
+		// TODO Auto-generated method stub
+		return stockService.getLastStocks(goodsIds, time);
 	}
 
 }

@@ -9,6 +9,10 @@ import com.njue.mis.model.Money;
 import com.njue.mis.services.MoneyService;
 
 public class MoneyController extends UnicastRemoteObject implements MoneyControllerInterface{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8171907086777514483L;
 	private MoneyService moneyService;
 	public MoneyController() throws RemoteException {
 		super();

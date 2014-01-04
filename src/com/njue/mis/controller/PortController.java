@@ -12,6 +12,10 @@ import com.njue.mis.services.PortService;
 
 public class PortController extends UnicastRemoteObject implements PortControllerInterface{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6656149062890565830L;
 	private PortService portService = new PortService(); 
 	public PortController() throws RemoteException {
 		super();
