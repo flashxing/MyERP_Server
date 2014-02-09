@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Vector;
 
-import com.mysql.jdbc.IterateBlock;
 import com.njue.mis.model.Role;
 
 public class RoleDao extends CommonObjectDao{

@@ -71,6 +71,16 @@ public class CommonUtil {
 		}
 		
 	}
+	public static int getCurrentTimeInt(){
+		Date date = new Date();
+		String dateInt = intFormat.format(date);
+		return Integer.parseInt(dateInt);
+	}
+	@SuppressWarnings("deprecation")
+	public static String getCurrentTime(){
+		Date date = new Date();
+		return date.toGMTString();
+	}
 //	public static void main(String[] args){
 //		CommonUtil util = new CommonUtil();
 //		Goods goods1 = new Goods();

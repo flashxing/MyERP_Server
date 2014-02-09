@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.njue.mis.dao.CardItemDao;
 import com.njue.mis.model.CardItem;
+import com.njue.mis.server.Server;
 
 public class CardItemService {
 	private CardItemDao cardItemDao;
@@ -25,5 +26,22 @@ public class CardItemService {
 	
 	public List<CardItem> getAllCardItems(){
 		return cardItemDao.getAll();
+	}
+	
+	public CardItem getCardItem(String cardName){
+		return cardItemDao.getCardItem(cardName);
+	}
+	
+	public boolean updateCardItem(String cardName, double money){
+		CardItem cardItem = getCardItem(cardName);
+		if (cardItem == null) {
+			Server.logger.warn("Failed to get the card "+cardName);
+		}
+		cardItem.setMoney(cardItem.getMoney()+money);
+		return updateCardItem(cardItem);
+	}
+	
+	public boolean saveOrUpdateCardItems(List<CardItem> cardItemList){
+		return cardItemDao.saveOrUpdate(cardItemList);
 	}
 }

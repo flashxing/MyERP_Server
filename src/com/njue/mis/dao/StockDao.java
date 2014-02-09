@@ -6,11 +6,13 @@ import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.njue.mis.model.Pair;
 import com.njue.mis.model.Stock;
 import com.njue.mis.server.Server;
 
@@ -36,6 +38,46 @@ public class StockDao extends CommonObjectDao{
 			id = super.save(stock);
 		}
 		return id!=null?1:0;
+	}
+	
+	@SuppressWarnings("finally")
+	public boolean saveStock(List<Stock> stocks){
+		Session session = null;
+		boolean result = false;
+		try{
+			session = HibernateUtil.getSession();
+			session.beginTransaction();
+			for(Stock stock : stocks){
+				String sqlString = "from Stock where goods_id = '"+stock.getGoodsId()+"' and sh_id="+stock.getShId()+" and time <="+stock.getTime()+" order by time DESC";
+				Query query = session.createQuery(sqlString);
+				query.setFirstResult(0);
+				query.setMaxResults(1);
+				Stock existStock = query.list().size()>0?(Stock) query.list().get(0):null;
+				if(existStock != null){
+					if(existStock.getTime() == stock.getTime()){
+						joinStock(existStock, stock);
+					}else{
+						joinStock(stock, existStock);
+						result = session.save(stock)!=null;
+					}
+				}else{
+					result = session.save(stock)!=null;
+				}
+			}
+			session.getTransaction().commit();
+			result = true;
+		}catch(HibernateException ex){
+			ex.printStackTrace();
+			Server.logger.warn("save all "+stocks+" failed");
+			if(session != null){
+				session.getTransaction().rollback();
+			}
+		}finally{
+			if(session != null){
+				session.close();
+			}
+			return result;
+		}
 	}
 	
 	@SuppressWarnings("finally")
@@ -85,8 +127,52 @@ public class StockDao extends CommonObjectDao{
 			return false;
 		}
 	}
-	
 	@SuppressWarnings("finally")
+	public boolean deleteStock(List<Stock> stocks){
+		Session session = null;
+		boolean result = false;
+		try{
+			session = HibernateUtil.getSession();
+			session.beginTransaction();
+			for(Stock stock : stocks){
+				String sqlString = "from Stock where goods_id = '"+stock.getGoodsId()+"' and sh_id="+stock.getShId()+" and time <="+stock.getTime()+" order by time DESC";
+				Query query = session.createQuery(sqlString);
+				query.setFirstResult(0);
+				query.setMaxResults(1);
+				Stock existStock = query.list().size()>0?(Stock) query.list().get(0):null;
+				if(existStock != null){
+					if(existStock.getNumber()>stock.getNumber()){
+						if(existStock.getTime() == stock.getTime()){
+							existStock.setNumber(existStock.getNumber()-stock.getNumber());
+						}else{
+							stock.setNumber(existStock.getNumber()-stock.getNumber());
+							stock.setPrice(existStock.getPrice());
+							Server.logger.debug(stock.getGoodsId()+" "+stock.getTime()+" "+stock.getShId());
+							session.save(stock);
+						}
+					}else{
+						throw new HibernateException("stock not enough "+stock.getGoodsId());
+					}
+				}else{
+					throw new HibernateException("stock not enough "+stock.getGoodsId());
+				}
+			}
+			session.getTransaction().commit();
+			result = true;
+		}catch(HibernateException ex){
+			ex.printStackTrace();
+			Server.logger.warn("save all "+stocks+" failed");
+			if(session != null){
+				session.getTransaction().rollback();
+			}
+		}finally{
+			if(session != null){
+				session.close();
+			}
+			return result;
+		}
+	}
+	
 	public boolean updateStock(Stock stock)
 	{
 //		if(stock.getNumber()<0){
@@ -243,5 +329,41 @@ public class StockDao extends CommonObjectDao{
 			price = Double.parseDouble(dFormat.format(result));
 		}
 		stock1.setPrice(price);
+	}
+
+	@SuppressWarnings("finally")
+	public boolean setUp(Map<Pair<String, Integer>, Integer> setupGoodsMap) {
+		Session session = null;
+		Boolean result = null;
+		try{
+			session = HibernateUtil.getSession();
+			session.beginTransaction();
+			@SuppressWarnings("unchecked")
+			List<Stock> list = session.createQuery("from Stock").list();
+			if(list != null)
+			for(Stock stock : list){
+				int number = 0;
+				Pair<String, Integer> pair = new Pair<String, Integer>(stock.getGoodsId(), stock.getShId());
+				if(setupGoodsMap.containsKey(pair)){
+					number = setupGoodsMap.get(pair);
+					stock.setNumber(number);
+					session.update(stock);
+				}
+			}
+			session.getTransaction().commit();
+			result = true;
+		}catch(Exception ex){
+			ex.printStackTrace();
+			Server.logger.warn("setUp Stock Failed");
+			if(session != null){
+				session.getTransaction().rollback();
+			}
+			result = false;
+		}finally{
+			if(session != null){
+				session.close();
+			}
+			return result;
+		}
 	}
 }

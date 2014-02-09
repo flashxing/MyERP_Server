@@ -3,6 +3,7 @@
  */
 package com.njue.mis.dao;
 
+import java.util.List;
 import java.util.Vector;
 
 import org.hibernate.HibernateException;
@@ -10,7 +11,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.njue.mis.model.Customer;
-import com.njue.mis.model.Goods;
+import com.njue.mis.model.SetupCustomer;
 import com.njue.mis.server.Server;
 
 public class CustomerDAO extends CommonObjectDao
@@ -174,6 +175,38 @@ public class CustomerDAO extends CommonObjectDao
 				session.close();
 			}
 			return list;
+		}
+	}
+	@SuppressWarnings("finally")
+	public boolean setUp(List<SetupCustomer> setupCustomers) {
+		Session session = null;
+		Boolean result = null;
+		try{
+			session = HibernateUtil.getSession();
+			session.beginTransaction();
+			for(SetupCustomer  setupCustomer: setupCustomers){
+				Customer customer = (Customer) session.get(Customer.class, setupCustomer.getCustomerId());
+				if(customer == null){
+					continue;
+				}
+				customer.getCustomerMoney().setGive(setupCustomer.getToGive());
+				customer.getCustomerMoney().setReceive(setupCustomer.getToReceive());
+				session.saveOrUpdate(customer);
+			}
+			session.getTransaction().commit();
+			result = true;
+		}catch(Exception ex){
+			ex.printStackTrace();
+			Server.logger.warn("setUp Customers Failed");
+			if(session != null){
+				session.getTransaction().rollback();
+			}
+			result = false;
+		}finally{
+			if(session != null){
+				session.close();
+			}
+			return result;
 		}
 	}
 }

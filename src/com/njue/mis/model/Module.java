@@ -3,6 +3,10 @@ package com.njue.mis.model;
 import java.io.Serializable;
 
 public class Module implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7873739293600964558L;
 	private int id;
 	private String name;
 	public int getId() {

@@ -1,6 +1,7 @@
 package com.njue.mis.dao;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import org.hibernate.HibernateException;
@@ -19,8 +20,8 @@ public class GoodsHDao extends CommonObjectDao{
 		try{
 			session = HibernateUtil.getSession();
 			session.beginTransaction();
-			goods.setId(CommonUtil.md5s(goods.getCateId()+goods.getProductCode()));
-			if (!this.isExisted(goods.getId())){
+			goods.setId(CommonUtil.md5s(goods.getCateId()+goods.getProductCode()+CommonUtil.getCurrentTime()));
+			if (!this.isExisted(goods.getProductCode(), goods.getCateId())){
 				id = (String) session.save(goods);
 			}
 			session.getTransaction().commit();
@@ -55,6 +56,7 @@ public class GoodsHDao extends CommonObjectDao{
 			if(session != null){
 				session.getTransaction().rollback();
 			}
+			result = false;
 		}finally{
 			if(session != null){
 				session.close();
@@ -112,13 +114,13 @@ public class GoodsHDao extends CommonObjectDao{
 	}
 	
 	@SuppressWarnings("finally")
-	public boolean isExisted(String id){
+	public boolean isExisted(String productCode, int cateId){
 		Session session = null;
 		boolean result = false;
 		try{
 			session = HibernateUtil.getSession();
 			session.beginTransaction();
-			String sql = "from Goods where id='"+id+"'";
+			String sql = "from Goods where productcode='"+productCode+"' and cateid="+cateId;
 	    	Query query = session.createQuery(sql);
 	    	@SuppressWarnings("unchecked")
 			List<Goods> list = query.list();
@@ -142,7 +144,6 @@ public class GoodsHDao extends CommonObjectDao{
 	}
 	
 	public boolean updateGoods(Goods goods){
-		goods.setId(CommonUtil.md5s(goods.getCateId()+goods.getProductCode()));
 		return super.update(goods);
 	}
 	
@@ -194,6 +195,40 @@ public class GoodsHDao extends CommonObjectDao{
 				session.close();
 			}
 			return list;
+		}
+	}
+	@SuppressWarnings("finally")
+	public boolean setUp(Map<String, Integer> setUpGoodsMap) {
+		Session session = null;
+		Boolean result = null;
+		try{
+			session = HibernateUtil.getSession();
+			session.beginTransaction();
+			@SuppressWarnings("unchecked")
+			List<Goods> list = session.createQuery("from Goods").list();
+			if(list != null)
+			for(Goods goods : list){
+				int number = 0;
+				if(setUpGoodsMap.containsKey(goods.getId())){
+					number = setUpGoodsMap.get(goods.getId());
+					goods.setGoodsNum(number);
+					session.update(goods);
+				}
+			}
+			session.getTransaction().commit();
+			result = true;
+		}catch(Exception ex){
+			ex.printStackTrace();
+			Server.logger.warn("setUp Goods Failed");
+			if(session != null){
+				session.getTransaction().rollback();
+			}
+			result = false;
+		}finally{
+			if(session != null){
+				session.close();
+			}
+			return result;
 		}
 	}
 }

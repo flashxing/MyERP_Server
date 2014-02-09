@@ -1,11 +1,14 @@
 package com.njue.mis.services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import com.njue.mis.dao.GoodsHDao;
 import com.njue.mis.model.Goods;
+import com.njue.mis.model.SetupGoods;
 import com.njue.mis.model.StorageGoods;
 
 public class GoodsService{
@@ -79,5 +82,17 @@ public class GoodsService{
 			goodsList.add(goodsDao.getGoodsInfo(id));
 		}
 		return goodsList;
+	}
+
+	public boolean setUp(List<SetupGoods> setupGoodsList) {
+		Map<String, Integer> setupGoodsMap = new HashMap<String, Integer>();
+		for(SetupGoods setupGoods : setupGoodsList){
+			if(setupGoodsMap.containsKey(setupGoods.getGoodsId())){
+				setupGoodsMap.put(setupGoods.getGoodsId(), setupGoods.getNumber()+setupGoodsMap.get(setupGoods.getGoodsId()));
+			}else{
+				setupGoodsMap.put(setupGoods.getGoodsId(), setupGoods.getNumber());
+			}
+		}
+		return goodsDao.setUp(setupGoodsMap);
 	}
 }

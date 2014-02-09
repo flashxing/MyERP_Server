@@ -1,9 +1,11 @@
 package com.njue.mis.services;
 
+import java.util.List;
 import java.util.Vector;
 
 import com.njue.mis.dao.CustomerDAO;
 import com.njue.mis.model.Customer;
+import com.njue.mis.model.SetupCustomer;
 
 public class CustomerService {
 
@@ -50,6 +52,11 @@ public class CustomerService {
 	public Vector<Customer> searchCustomerByName(String name) {
 		// TODO Auto-generated method stub
 		return customerDao.searchCustomerByName(name);
+	}
+
+	public boolean setUp(List<SetupCustomer> setupCustomers) {
+		// TODO Auto-generated method stub
+		return customerDao.setUp(setupCustomers);
 	}
 
 }

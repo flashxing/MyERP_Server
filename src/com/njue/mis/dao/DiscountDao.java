@@ -3,7 +3,6 @@ package com.njue.mis.dao;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
-import com.njue.mis.model.Customer;
 import com.njue.mis.model.Discount;
 import com.njue.mis.server.Server;
 

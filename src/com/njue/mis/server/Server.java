@@ -9,6 +9,8 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -29,6 +31,9 @@ import com.njue.mis.controller.ReceiptItemController;
 import com.njue.mis.controller.RoleController;
 import com.njue.mis.controller.SalesController;
 import com.njue.mis.controller.SalesManController;
+import com.njue.mis.controller.SetupController;
+import com.njue.mis.controller.SetupCustomerController;
+import com.njue.mis.controller.SetupGoodsController;
 import com.njue.mis.controller.StockController;
 import com.njue.mis.controller.StockObjectController;
 import com.njue.mis.controller.StoreHouseController;
@@ -165,6 +170,20 @@ public class Server {
 			
 			Naming.bind(Configure.SalesManController, new SalesManController());
 			new SalesManController().getAllSalesMans();
+			
+			Naming.bind(Configure.SetupGoodsController, new SetupGoodsController());
+	
+			List<String> goodsIdList = new ArrayList<>();
+			goodsIdList.add("test");
+			new SetupGoodsController().getAllSetupGoods(goodsIdList, 1);
+		
+			Naming.bind(Configure.SetupCustomerController, new SetupCustomerController());
+			List<String> customerIdList = new ArrayList<>();
+			customerIdList.add("test");
+			new SetupCustomerController().getAllSetupCustomer(customerIdList);
+			
+			Naming.bind(Configure.SetupController, new SetupController());
+		
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

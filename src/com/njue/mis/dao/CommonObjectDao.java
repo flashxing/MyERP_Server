@@ -10,7 +10,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.njue.mis.common.CommonUtil;
-import com.njue.mis.model.Discount;
 import com.njue.mis.server.Server;
 
 public class CommonObjectDao {

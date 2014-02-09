@@ -42,4 +42,11 @@ public class CardItemController extends UnicastRemoteObject implements CardItemC
 		// TODO Auto-generated method stub
 		return cardItemService.getAllCardItems();
 	}
+
+	@Override
+	public boolean saveOrUpdateCardItems(List<CardItem> cardItemList)
+			throws RemoteException {
+		// TODO Auto-generated method stub
+		return cardItemService.saveOrUpdateCardItems(cardItemList);
+	}
 }

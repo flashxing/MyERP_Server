@@ -49,9 +49,8 @@
   <mapping resource="Money.hbm.xml" />
   <mapping resource="CardItem.hbm.xml" />
   <mapping resource="SalesMan.hbm.xml" />
-  
-  
-  
-  
+  <mapping resource="SetupGoods.hbm.xml" />
+  <mapping resource="SetupCustomer.hbm.xml" />
+ 
  </session-factory>
 </hibernate-configuration>
