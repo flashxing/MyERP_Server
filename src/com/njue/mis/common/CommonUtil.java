@@ -81,6 +81,11 @@ public class CommonUtil {
 		Date date = new Date();
 		return date.toGMTString();
 	}
+	public static String getMyCurrentTime(){
+		Date date = new Date();
+		formate=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return formate.format(date);
+	}
 //	public static void main(String[] args){
 //		CommonUtil util = new CommonUtil();
 //		Goods goods1 = new Goods();

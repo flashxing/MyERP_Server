@@ -11,7 +11,7 @@
      <key-property name="receiptId" column="receipt_id" type="string" />
      <key-property name="id" column="id" type="int" />
  </composite-id>
-  <property name="receiptItem" column="receipt_item" type="string"
+  <property name="cardName" column="receipt_item" type="string"
       not-null="true" />
   <property name="money" column="money" type="double"
       not-null="true" />

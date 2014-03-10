@@ -35,7 +35,7 @@
       not-null="true" />
   <property name="salesMan" column="sales_man" type="string"
       not-null="false" />
-      <list name="goodsItemsList" table="tb_sales_goods_item" lazy="false" cascade="all" inverse="true">
+      <list name="goodsItemsList" table="tb_sales_goods_item" lazy="false" cascade="all-delete-orphan" inverse="true">
             <key column="port_id" foreign-key = "id"/>
             <index column="id" />
             <one-to-many class="com.njue.mis.model.SalesGoodsItem"/>

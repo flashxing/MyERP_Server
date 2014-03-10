@@ -34,6 +34,15 @@ public class PortDAO extends CommonObjectDao
 		return super.delete(port);
 	}
 	
+	public boolean update(Port port){
+		Object object = super.get(port.getClass(), port.getId());
+		if(object == null){
+			return false;
+		}
+		super.delete(object);
+		return addPort(port)!=null;
+	}
+	
 //	/**
 //	 * 查询数据库中满足条件的进货记录
 //	 * @param field 查询的字段
@@ -158,5 +167,63 @@ public class PortDAO extends CommonObjectDao
 //		PortInDAO in=new PortInDAO();
 //		Vector<PortIn> vector=in.searchPortInByTime("2001-08-02","2010-01-01");
 //		System.err.println(vector.size());
+//	}
+//	public boolean deletePortIn(Port port) {
+//		// TODO Auto-generated method stub
+//		Session session = null;
+//		int time = CommonUtil.convertDateToInt(CommonUtil.getMyCurrentTime());
+//		if(time == 0){
+//			Server.logger.warn("Failed to save the Port for time is error"+portBack.getTime());
+//			return false;
+//		}
+//		try{
+//			session = HibernateUtil.getSession();
+//			session.beginTransaction();
+//			session.delete(port);
+//			List<GoodsItem> list = port.getGoodsItemList();
+//			String sql = null;
+//			for(GoodsItem item : list){
+//				String goodsId = item.getGoodsId();
+//				int shId = port.getStoreHouseId();
+//				int number = item.getNumber();
+//				Stock stock = new Stock(goodsId,shId,number,time, item.getUnitPrice());
+//				sql = "from Stock where goods_id = '"+goodsId+"' and sh_id="+shId+" and time <="+time+" order by time DESC";
+//				Query query = session.createQuery(sql);
+//				query.setMaxResults(1);
+//				query.setFirstResult(0);
+//				if(null != query.list()){
+//					
+//				}
+//				List<Stock> stocks = query.list().get(0);
+//				if(!stockService.deleteStock(stock)){
+//					Server.logger.warn("Failed to delete stock:"+stock);
+//					portDao.deletePort(portBack);
+//					return null;
+//				}
+//			}
+//			String sql = "from PortIn order by inporttime";
+//			Query query = session.createQuery(sql);
+//			list = new Vector<PortIn>(query.list());
+//			session.getTransaction().commit();
+//		}catch(HibernateException ex){
+//			ex.printStackTrace();
+//			Server.logger.warn("get all PortIn "+" failed");
+//			if(session != null){
+//				session.getTransaction().rollback();
+//			}
+//		}finally{
+//			if(session != null){
+//				session.close();
+//			}
+//			Vector<PortIn> vector = new Vector<PortIn>();
+//			for(PortIn port:list){
+//				vector.add(port.clone());
+//			}
+//			return vector;
+//		}
+//	}
+//	public boolean deletePortBack(Port port) {
+//		// TODO Auto-generated method stub
+//		return false;
 //	}
 }

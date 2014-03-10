@@ -2,6 +2,7 @@ package com.njue.mis.controller;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 import java.util.Vector;
 
 import com.njue.mis.interfaces.CustomerControllerInterface;
@@ -73,5 +74,12 @@ public class CustomerController extends UnicastRemoteObject implements CustomerC
 			throws RemoteException {
 		// TODO Auto-generated method stub
 		return customerService.searchCustomerByName(name);
+	}
+
+	@Override
+	public List<Customer> getAllCustomersByCateId(List<Integer> cateIdList)
+			throws RemoteException {
+		// TODO Auto-generated method stub
+		return customerService.getAllCustomerByCategory(cateIdList);
 	}
 }

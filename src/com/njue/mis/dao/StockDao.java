@@ -109,7 +109,7 @@ public class StockDao extends CommonObjectDao{
 		Serializable id = null;
 		Stock existStock = getStockByGoodsAndTime(stock.getGoodsId(), stock.getTime(), stock.getShId());
 		if(existStock != null){
-			if(existStock.getNumber()>stock.getNumber()){
+			if(existStock.getNumber()>=stock.getNumber()){
 				if(existStock.getTime() == stock.getTime()){
 					existStock.setNumber(existStock.getNumber()-stock.getNumber());
 					return super.update(existStock);
@@ -141,19 +141,24 @@ public class StockDao extends CommonObjectDao{
 				query.setMaxResults(1);
 				Stock existStock = query.list().size()>0?(Stock) query.list().get(0):null;
 				if(existStock != null){
-					if(existStock.getNumber()>stock.getNumber()){
+					if(existStock.getNumber()>=stock.getNumber()){
+						Server.logger.debug("The exist stock number is bigger than stock or equal");
 						if(existStock.getTime() == stock.getTime()){
+							Server.logger.debug("The exist stock number is equal with stock");
 							existStock.setNumber(existStock.getNumber()-stock.getNumber());
 						}else{
+							Server.logger.debug("The exist stock number is bigger than stock");
 							stock.setNumber(existStock.getNumber()-stock.getNumber());
 							stock.setPrice(existStock.getPrice());
 							Server.logger.debug(stock.getGoodsId()+" "+stock.getTime()+" "+stock.getShId());
 							session.save(stock);
 						}
 					}else{
+						Server.logger.debug("The exist stock number is less than stock");
 						throw new HibernateException("stock not enough "+stock.getGoodsId());
 					}
 				}else{
+					Server.logger.debug("The is no exist stock");
 					throw new HibernateException("stock not enough "+stock.getGoodsId());
 				}
 			}
@@ -292,7 +297,7 @@ public class StockDao extends CommonObjectDao{
 		try{
 			session = HibernateUtil.getSession();
 			session.beginTransaction();
-			String sql = "from Stock where goods_id = '"+goodsId+"' and sh_id="+shId;
+			String sql = "from Stock where goods_id = '"+goodsId+"' and sh_id="+shId+" order by time DESC";
 			Query query = session.createQuery(sql);
 			list = new ArrayList<Stock>(query.list());
 			session.getTransaction().commit();
@@ -315,7 +320,6 @@ public class StockDao extends CommonObjectDao{
 	}
 	
 	public void joinStock(Stock stock1, Stock stock2){
-		stock1.setNumber(stock1.getNumber()+stock2.getNumber());
 		double price = 0;
 		if(stock2.getPrice() == 0){
 			price = stock1.getPrice();
@@ -328,6 +332,7 @@ public class StockDao extends CommonObjectDao{
 			Double result = (first+second)/(stock1.getNumber()+stock2.getNumber());
 			price = Double.parseDouble(dFormat.format(result));
 		}
+		stock1.setNumber(stock1.getNumber()+stock2.getNumber());
 		stock1.setPrice(price);
 	}
 

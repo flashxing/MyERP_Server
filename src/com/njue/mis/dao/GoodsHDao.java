@@ -180,7 +180,11 @@ public class GoodsHDao extends CommonObjectDao{
 		try{
 			session = HibernateUtil.getSession();
 			session.beginTransaction();
-			String sql = "from Goods where goodsname like '%"+goodsName+"%' order by goodsname";
+			String sql = "from Goods where goodsname like '%"+goodsName+"%' or productcode like '%"+goodsName
+						+"%' or size like '%"+goodsName
+						+"%' or description like '%"+goodsName
+						+"%' order by goodsname";
+//			String sql = "select * from tb_goods WHERE MATCH(goodsname,size,productcode,description) AGAINST ('"+goodsName+"')";
 			Query query = session.createQuery(sql);
 			list = new Vector<Goods>(query.list());
 			session.getTransaction().commit();

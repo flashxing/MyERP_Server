@@ -43,10 +43,12 @@
   <mapping resource="ReceiptOut.hbm.xml" />
   <mapping resource="ReceiptIn.hbm.xml" />
   <mapping resource="ReceiptItem.hbm.xml" />
+  <mapping resource="ReceiptChange.hbm.xml" />
   <mapping resource="CustomerMoney.hbm.xml" />
   <mapping resource="MoneyItem.hbm.xml" />
   <mapping resource="MoneyItemDetail.hbm.xml" />
   <mapping resource="Money.hbm.xml" />
+  <mapping resource="MoneyChange.hbm.xml" />
   <mapping resource="CardItem.hbm.xml" />
   <mapping resource="SalesMan.hbm.xml" />
   <mapping resource="SetupGoods.hbm.xml" />

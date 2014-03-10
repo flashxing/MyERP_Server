@@ -28,7 +28,7 @@ public class UserDao extends CommonObjectDao{
 	}
 	
 	public boolean update(User user){
-		return super.update(user, user.getUserId());
+		return super.update(user);
 	}
 	
 	@SuppressWarnings("unchecked")

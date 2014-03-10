@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Vector;
 
 import com.njue.mis.interfaces.PortControllerInterface;
+import com.njue.mis.model.Port;
 import com.njue.mis.model.PortBack;
 import com.njue.mis.model.PortIn;
 import com.njue.mis.services.PortService;
@@ -74,6 +75,18 @@ public class PortController extends UnicastRemoteObject implements PortControlle
 	public List<List<PortIn>> searchPortInByTimeAndGoods(String beginTime,
 			String endTime, String[] goodsIds) throws RemoteException{
 		return portService.searchPortInByTimeAndGoods(beginTime, endTime, goodsIds);
+	}
+
+	@Override
+	public boolean updatePort(Port port) throws RemoteException {
+		// TODO Auto-generated method stub
+		return portService.updatePort(port);
+	}
+
+	@Override
+	public boolean deletePort(Port port) throws RemoteException {
+		// TODO Auto-generated method stub
+		return portService.deletePort(port);
 	}
 
 }

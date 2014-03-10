@@ -1,5 +1,6 @@
 package com.njue.mis.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -57,6 +58,15 @@ public class CustomerService {
 	public boolean setUp(List<SetupCustomer> setupCustomers) {
 		// TODO Auto-generated method stub
 		return customerDao.setUp(setupCustomers);
+	}
+
+	public List<Customer> getAllCustomerByCategory(List<Integer> cateIdList) {
+		// TODO Auto-generated method stub
+		List<Customer> list = new ArrayList<>();
+		for(Integer cateId:cateIdList){
+			list.addAll(customerDao.getAllCustomerByCategory(cateId));
+		}
+		return list;
 	}
 
 }

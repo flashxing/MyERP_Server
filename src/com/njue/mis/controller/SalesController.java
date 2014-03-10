@@ -103,5 +103,11 @@ public class SalesController extends UnicastRemoteObject implements
 		// TODO Auto-generated method stub
 		return salesService.deleteSales(sales);
 	}
+	public List<Sales> searchSales(String begin, String end, 
+			String customerId, String goodsId,
+			String salesMan, int shId,
+			String operator, String comment, int type){
+		return salesService.searchSales(begin, end, customerId, goodsId, salesMan, shId, operator, comment, type);
+	}
 
 }
